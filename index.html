@@ -1,0 +1,1333 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ef3b36">
+<title>伊豆大島 釣り遠征</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: game-console menu screen — sticky chunky MENU tabs on top, then each section is a thick-outlined panel with hard drop shadows */
+:root{
+  --bg:#e9eef5; --dot:#d3dbe6; --surface:#ffffff; --ink:#1b1f2a; --edge:#1b1f2a; --muted:#5b6475; --line:#d7dde7;
+  --red:#ef3b36; --blue:#2f7cf6; --yellow:#ffc62e; --green:#2fb55a;
+  --sea:#2f7cf6; --sea-soft:#e3eeff; --sea-deep:#b9d3ff; --camellia:#ef3b36; --camellia-soft:#ffe4e2;
+  --land:#3d8b4f; --land-top:#7cc48a; --ok:#2fb55a; --ok-soft:#ddf5e4; --warn:#d98a00; --warn-soft:#fff1cc;
+  --screen:#7fc1ff; --tile:#d6ebff;
+  --display:"DotGothic16","Hiragino Sans",system-ui,sans-serif;
+  --body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",system-ui,sans-serif;
+  --mono:"DotGothic16",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#171b26; --dot:#222838; --surface:#262d3d; --ink:#eef1f7; --edge:#05070c; --muted:#a3abbd; --line:#39415a;
+  --sea:#5b9bff; --sea-soft:#1f2c48; --sea-deep:#2b416b; --camellia:#ff6a63; --camellia-soft:#432225;
+  --land:#3f9a55; --land-top:#8fd49c; --ok:#4fd27a; --ok-soft:#1b3a27; --warn:#ffc62e; --warn-soft:#3d3218; --screen:#1d3b66; --tile:#2d5384; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#171b26; --dot:#222838; --surface:#262d3d; --ink:#eef1f7; --edge:#05070c; --muted:#a3abbd; --line:#39415a;
+  --sea:#5b9bff; --sea-soft:#1f2c48; --sea-deep:#2b416b; --camellia:#ff6a63; --camellia-soft:#432225;
+  --land:#3f9a55; --land-top:#8fd49c; --ok:#4fd27a; --ok-soft:#1b3a27; --warn:#ffc62e; --warn-soft:#3d3218; --screen:#1d3b66; --tile:#2d5384; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);background-image:radial-gradient(var(--dot) 1.5px,transparent 1.6px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-inline:16px;padding-block:20px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.3}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;color:var(--muted)}
+.lead{color:var(--muted);margin:0;max-width:62ch;font-size:.9rem}
+.note{font-size:.8rem;color:var(--muted);margin:0}
+
+/* panel = every section */
+.panel,section{background:var(--surface);border:3px solid var(--edge);border-radius:22px;box-shadow:0 6px 0 var(--edge);padding:20px 18px 22px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:84px;min-width:0}
+h2{font-size:1.45rem;display:flex;align-items:center;gap:12px}
+h2 .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:3px solid var(--edge);box-shadow:0 3px 0 var(--edge);flex:none;color:#fff}
+h2 .ic svg{width:20px;height:20px}
+#weather h2 .ic{background:var(--yellow);color:#1b1f2a}
+#spots h2 .ic{background:var(--blue)}
+#shops h2 .ic{background:var(--red)}
+#tackle h2 .ic{background:var(--green)}
+#list h2 .ic{background:var(--blue)}
+
+/* MENU (table of contents) */
+.menu{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;margin-inline:-4px;padding:10px 4px;background:linear-gradient(var(--bg) 70%,transparent)}
+.menu nav{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+.menu nav::-webkit-scrollbar{display:none}
+.menu .lbl{font-family:var(--mono);font-size:.8rem;align-self:center;color:var(--muted);padding-right:2px;flex:none}
+.menu a{flex:none;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font-weight:700;font-size:.88rem;border:3px solid var(--edge);box-shadow:0 4px 0 var(--edge);transition:transform .08s,box-shadow .08s}
+.menu a svg{width:15px;height:15px}
+.menu a:hover{transform:translateY(-1px)}
+.menu a:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.menu a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.menu a.on{background:var(--ink);color:var(--surface)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;align-items:center;background:var(--red);border:3px solid var(--edge);border-radius:26px;box-shadow:0 6px 0 var(--edge);padding:18px;color:#fff}
+.hero-text{display:flex;flex-direction:column;gap:12px;min-width:0}
+.hero .eyebrow{color:#ffe0de}
+.hero h1{font-size:clamp(2.1rem,7vw,3rem);letter-spacing:.04em;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.hero h1 span{color:var(--yellow)}
+.dates{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:#fff;color:#1b1f2a;border:3px solid var(--edge);font-size:.82rem;font-weight:700}
+.chip svg{width:14px;height:14px}
+.verdict{background:#fff;color:#1b1f2a;border:3px solid var(--edge);border-radius:16px;padding:12px 14px;font-size:.9rem;position:relative}
+.verdict::before{content:"▶";font-family:var(--mono);color:var(--red);margin-right:6px}
+.verdict b{color:var(--blue)}
+.map{margin:0;width:100%;max-width:360px;justify-self:center;background:var(--screen);border:3px solid var(--edge);border-radius:18px;padding:8px;box-shadow:inset 0 0 0 4px rgba(255,255,255,.35)}
+.map svg{width:100%;height:auto;display:block}
+@media (max-width:620px){.hero{grid-template-columns:1fr}.map{max-width:320px}}
+
+/* weather */
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.day{border:3px solid var(--edge);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0;background:var(--surface);box-shadow:0 4px 0 var(--edge)}
+.day .d{font-family:var(--display);font-size:1.1rem}
+.day .d small{color:var(--muted);font-family:var(--body);font-size:.75rem;margin-left:6px}
+.day .sky{display:flex;align-items:center;gap:6px;font-size:.88rem;font-weight:700}
+.day .sky svg{width:22px;height:22px;color:var(--warn);flex:none}
+.day .t{font-size:1.4rem}
+.day .t .lo{color:var(--blue);font-size:1rem}
+.day .p{font-size:.8rem;color:var(--muted)}
+@media (max-width:520px){.days{grid-template-columns:1fr}.day{flex-direction:row;flex-wrap:wrap;align-items:center;gap:2px 14px}.day .d{flex-basis:100%}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.fact{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--sea-soft);border:2px dashed var(--sea);min-width:0}
+.fact svg{width:18px;height:18px;color:var(--sea);flex:none;margin-top:3px}
+.fact b{display:block;font-size:.92rem}
+.fact span{font-size:.8rem;color:var(--muted)}
+
+/* spots */
+.spots{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.spot{border:3px solid var(--edge);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0;background:var(--surface);box-shadow:0 4px 0 var(--edge)}
+.spot header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.spot h3{font-size:1.2rem}
+.spot .pos{font-size:.76rem;color:var(--muted)}
+.spot p{margin:0;font-size:.86rem}
+.tag{font-size:.72rem;font-weight:800;padding:2px 9px;border-radius:999px;white-space:nowrap;border:2px solid currentColor}
+.tag.go{background:var(--ok-soft);color:var(--ok)}
+.tag.ok{background:var(--sea-soft);color:var(--sea)}
+.tag.no{background:var(--warn-soft);color:var(--warn)}
+@media (max-width:560px){.spots{grid-template-columns:1fr}}
+.tip{display:flex;gap:10px;padding:12px 14px;background:var(--warn-soft);border:3px solid var(--edge);border-radius:16px;font-size:.86rem}
+.tip svg{width:18px;height:18px;color:var(--warn);flex:none;margin-top:3px}
+
+/* shops */
+.shops{display:flex;flex-direction:column;gap:12px}
+.shop{border:3px solid var(--edge);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:36px 1fr;gap:4px 12px;min-width:0;box-shadow:0 4px 0 var(--edge);background:var(--surface)}
+.badge{width:32px;height:32px;border-radius:10px;background:var(--camellia);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:1rem;grid-row:span 3;border:3px solid var(--edge)}
+.shop h3{font-size:1.15rem;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.shop h3 small{font-family:var(--body);font-size:.74rem;color:var(--muted)}
+.shop .meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.84rem}
+.shop .meta span{display:inline-flex;align-items:center;gap:5px}
+.shop .meta svg{width:14px;height:14px;color:var(--sea)}
+.shop p{margin:0;font-size:.84rem;color:var(--muted)}
+.tel{user-select:all}
+
+/* equipment */
+.rods{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:560px){.rods{grid-template-columns:1fr}}
+.gear{background:var(--surface);border:3px solid var(--edge);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0;box-shadow:0 5px 0 var(--edge)}
+.gear-top{display:flex;gap:12px;align-items:center}
+.slot{width:58px;height:58px;flex:none;display:grid;place-items:center;border-radius:16px;background:var(--blue);color:#fff;border:3px solid var(--edge);box-shadow:inset 0 -5px 0 rgba(0,0,0,.18)}
+.slot.alt{background:var(--red)}
+.slot svg{width:28px;height:28px}
+.gear-name{display:flex;flex-direction:column;gap:1px;min-width:0}
+.slot-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--muted)}
+.gear h3{font-size:1.15rem}
+.rarity{font-size:.82rem;color:var(--warn);letter-spacing:.08em;font-weight:800}
+.rarity em{font-style:normal;color:var(--muted);letter-spacing:0;margin-left:4px;font-weight:500}
+.stats{margin:0;display:grid;gap:6px;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.stats div{display:grid;grid-template-columns:4.4em 1fr 1.2em;align-items:center;gap:8px}
+.stats dt{font-size:.78rem;color:var(--muted);font-weight:800}
+.stats dd{display:contents}
+.meter{height:12px;border-radius:4px;border:2px solid var(--edge);background:
+  repeating-linear-gradient(90deg,transparent 0 calc(20% - 2px),var(--edge) calc(20% - 2px) 20%),
+  linear-gradient(90deg,var(--green) calc(var(--v)*20%),var(--surface) 0)}
+.stats .num{font-size:.95rem;text-align:right}
+.equip{display:flex;flex-wrap:wrap;gap:6px}
+.equip span{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;padding:3px 9px;border:2px solid var(--line);border-radius:999px}
+.equip svg{width:13px;height:13px;color:var(--sea)}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.sk{font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--yellow);color:#1b1f2a;border:2px solid var(--edge)}
+.flavor{margin:0;font-size:.78rem;color:var(--muted);border-top:2px dotted var(--line);padding-top:8px}
+.sub{font-size:1.15rem;display:flex;align-items:center;gap:8px;margin-top:6px}
+.sub svg{width:18px;height:18px;color:var(--warn)}
+
+.rigs{display:flex;flex-direction:column;gap:12px}
+.rig{border:3px solid var(--edge);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:150px 1fr;gap:6px 16px;min-width:0;box-shadow:0 4px 0 var(--edge);background:var(--surface)}
+.rig h3{font-size:1.15rem;grid-row:span 2}
+.rig h3 small{display:block;font-family:var(--body);font-size:.74rem;color:var(--muted);margin-top:2px}
+.rig dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:.87rem;min-width:0}
+.rig dt{color:var(--muted);font-size:.76rem;font-weight:800;padding-top:2px;white-space:nowrap}
+.rig dd{margin:0;min-width:0}
+.rig .how{grid-column:2;font-size:.84rem;color:var(--muted);margin:0}
+@media (max-width:560px){.rig{grid-template-columns:1fr}.rig h3{grid-row:auto}.rig .how{grid-column:1}}
+
+/* checklist */
+.check{border:3px solid var(--edge);border-radius:16px;padding:4px}
+.group{padding:10px 10px 4px}
+.group .eyebrow{display:block;margin-bottom:4px}
+.item{display:flex;align-items:flex-start;gap:10px;padding:7px 6px;border-radius:10px;cursor:pointer;font-size:.92rem}
+.item:hover{background:var(--sea-soft)}
+.item input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--green);flex:none}
+.item input:checked + span{color:var(--muted);text-decoration:line-through}
+.item input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.progress{display:flex;align-items:center;gap:10px;font-size:.85rem}
+.bar{flex:1;height:16px;background:var(--surface);border:3px solid var(--edge);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .25s}
+.reset{font:inherit;font-size:.8rem;font-weight:800;background:var(--surface);color:var(--ink);border:3px solid var(--edge);border-radius:999px;padding:3px 12px;cursor:pointer;box-shadow:0 3px 0 var(--edge)}
+.reset:active{transform:translateY(3px);box-shadow:none}
+.reset:focus-visible{outline:3px solid var(--yellow)}
+
+
+/* tide */
+#tide h2 .ic{background:var(--sea)}
+#catch h2 .ic{background:var(--yellow);color:#1b1f2a}
+.daytabs{display:flex;gap:8px;flex-wrap:wrap}
+.dt,.opt{font:inherit;font-weight:800;cursor:pointer;color:var(--ink);background:var(--surface);border:3px solid var(--edge);border-radius:999px;padding:6px 14px;box-shadow:0 4px 0 var(--edge);transition:transform .08s,box-shadow .08s}
+.dt:active,.opt:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.dt:focus-visible,.opt:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.dt.on{background:var(--sea);color:#fff}
+.tidebox{border:3px solid var(--edge);border-radius:16px;padding:10px 10px 6px;background:var(--screen)}
+.tidechart{overflow-x:auto}
+.tidechart svg{display:block;width:100%;min-width:520px;height:auto}
+.legend{display:flex;gap:14px;font-size:.78rem;padding:4px 4px 0;color:var(--ink)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:10px;border-radius:3px;display:inline-block;border:2px solid var(--edge)}
+.sw.go{background:var(--yellow)}
+.sw.slack{background:repeating-linear-gradient(45deg,var(--muted) 0 2px,transparent 2px 5px)}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.slotc{border:3px solid var(--edge);border-radius:14px;padding:10px 12px;background:var(--surface);box-shadow:0 4px 0 var(--edge);display:flex;flex-direction:column;gap:2px;min-width:0}
+.slotc .tm{font-family:var(--mono);font-size:1.2rem}
+.slotc b{font-size:.9rem}
+.slotc span{font-size:.8rem;color:var(--muted)}
+.slotc .rank{align-self:flex-start;font-size:.7rem;font-weight:800;padding:1px 8px;border-radius:999px;background:var(--yellow);color:#1b1f2a;border:2px solid var(--edge)}
+.slotc.slack .rank{background:var(--line);color:var(--ink)}
+
+/* loadout */
+.pick{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:var(--bg);border:3px solid var(--edge)}
+.pickrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pk-lbl{font-family:var(--mono);width:3.6em;color:var(--muted)}
+.opt{display:inline-flex;align-items:center;gap:6px;border-radius:14px;padding:8px 14px}
+.opt svg{width:16px;height:16px}
+.opt[aria-pressed="true"]{background:var(--blue);color:#fff}
+#rodB[aria-pressed="true"]{background:var(--red)}
+.result{display:flex;flex-direction:column;gap:10px}
+.res-head{display:flex;justify-content:space-between;align-items:baseline}
+.fishgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.fish{border:3px solid var(--edge);border-radius:16px;padding:12px;background:var(--surface);box-shadow:0 4px 0 var(--edge);display:grid;grid-template-columns:46px 1fr;gap:2px 10px;min-width:0;animation:pop .25s ease-out}
+.fish .fi{grid-row:span 3;width:46px;height:46px;border-radius:12px;border:3px solid var(--edge);display:grid;place-items:center;color:#fff}
+.fish .fi svg{width:24px;height:24px}
+.fish.s .fi{background:var(--red)} .fish.a .fi{background:var(--blue)} .fish.b .fi{background:var(--muted)}
+.fish h3{font-size:1.1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.grade{font-family:var(--mono);font-size:.75rem;padding:0 7px;border-radius:6px;border:2px solid var(--edge);background:var(--yellow);color:#1b1f2a}
+.fish.a .grade{background:var(--sea-soft);color:var(--ink)} .fish.b .grade{background:var(--line);color:var(--ink)}
+.fish .how{font-size:.8rem;color:var(--muted)}
+.fish .when{font-size:.78rem}
+.locked{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem;color:var(--muted)}
+.locked .lk{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;border:2px dashed var(--line)}
+.locked .lk svg{width:12px;height:12px}
+@keyframes pop{from{transform:scale(.96);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.fish{animation:none}}
+
+/* loadout v2 */
+.pickhead{display:flex;align-items:baseline;gap:10px}
+.optgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.opt.card{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left;border-radius:14px;padding:8px 12px;line-height:1.4;min-width:0}
+.opt.card b{font-size:.88rem}
+.opt.card span{font-size:.72rem;font-weight:500;color:var(--muted)}
+.opt.card em{font-style:normal;font-size:.68rem;font-weight:800;margin-top:3px;padding:0 7px;border-radius:999px;background:var(--yellow);color:#1b1f2a;border:2px solid var(--edge)}
+.opt.card[aria-pressed="true"]{background:var(--blue);color:#fff}
+.opt.card[aria-pressed="true"] span{color:#e4eeff}
+#reelgrid .opt.card[aria-pressed="true"]{background:var(--red)}
+#reelgrid .opt.card[aria-pressed="true"] span{color:#ffe4e2}
+.sub2{margin-top:8px}
+.fish{font:inherit;color:inherit;text-align:left;cursor:pointer;border:3px solid var(--edge);border-radius:16px;padding:10px;background:var(--surface);box-shadow:0 4px 0 var(--edge);display:flex;flex-direction:column;gap:8px;min-width:0;animation:pop .25s ease-out;transition:transform .08s,box-shadow .08s}
+.fish:hover{transform:translateY(-2px)}
+.fish:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.fish:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.fish .fi{width:100%;height:auto;border-radius:12px;border:3px solid var(--edge);background:var(--tile);display:grid;place-items:center;padding:6px 0}
+.fish.s .fi,.fish.a .fi,.fish.b .fi,.fish.haz .fi{background:var(--tile)}
+.fish.haz{border-style:dashed}
+.fish .fb{display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.fish h3{font-size:1.05rem}
+.fishgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.fishgrid.small{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.sprite{image-rendering:pixelated;image-rendering:crisp-edges;max-width:100%;height:auto;display:block}
+.dg{font-size:.7rem;font-weight:800;padding:1px 8px;border-radius:999px;border:2px solid currentColor;white-space:nowrap}
+.dg.ok{color:var(--ok);background:var(--ok-soft)}
+.dg.warn{color:var(--warn);background:var(--warn-soft)}
+.dg.bad{color:var(--camellia);background:var(--camellia-soft)}
+.riglist{display:flex;flex-direction:column;gap:8px}
+.rigc{border:3px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:0 3px 0 var(--edge);padding:0 12px}
+.rigc summary{cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 0;list-style:none}
+.rigc summary::-webkit-details-marker{display:none}
+.rigc summary::after{content:"▼";font-family:var(--mono);margin-left:auto;font-size:.75rem;color:var(--muted)}
+.rigc[open] summary::after{content:"▲"}
+.rigc summary:focus-visible{outline:3px solid var(--yellow)}
+.rigc dl{margin:0 0 8px;display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:.86rem}
+.rigc dt{color:var(--muted);font-size:.76rem;font-weight:800;padding-top:2px;white-space:nowrap}
+.rigc dd{margin:0;min-width:0}
+.rigc .how{margin:0 0 12px;font-size:.82rem;color:var(--muted)}
+.rigc.a .grade{background:var(--sea-soft);color:var(--ink)}.rigc.b .grade{background:var(--line);color:var(--ink)}
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px}
+.modal-back{position:absolute;inset:0;background:rgba(10,12,20,.55)}
+.modal-card{position:relative;width:min(440px,100%);max-height:calc(100% - 32px);overflow:auto;background:var(--surface);border:3px solid var(--edge);border-radius:22px;box-shadow:0 6px 0 var(--edge);padding:18px;display:flex;flex-direction:column;gap:10px;animation:pop .2s ease-out}
+.m-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:12px;border:3px solid var(--edge);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 0 var(--edge)}
+.m-close svg{width:18px;height:18px}
+.m-close:focus-visible{outline:3px solid var(--yellow)}
+.m-sprite{border:3px solid var(--edge);border-radius:16px;background:var(--tile);display:grid;place-items:center;padding:14px 0}
+.m-sprite .sprite{width:224px}
+#m-name{font-size:1.5rem}
+.m-badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.m-dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:.9rem}
+.m-dl dt{font-weight:800;color:var(--muted);font-size:.8rem;padding-top:2px;white-space:nowrap}
+.m-dl dd{margin:0;min-width:0}
+@media (prefers-reduced-motion:reduce){.modal-card{animation:none}}
+
+/* ===== mobile: app-style tabs ===== */
+.tabbar{display:none}
+@media (max-width:720px){
+  body{font-size:14px}
+  .wrap{gap:16px;padding-block:12px calc(96px + env(safe-area-inset-bottom,0px))}
+  .menu{display:none}
+  body.mob [data-tab]:not(.act){display:none!important}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;
+    background:var(--surface);border-top:3px solid var(--edge);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tb{font:inherit;background:none;border:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;border-radius:12px;cursor:pointer;font-size:.68rem;font-weight:800}
+  .tb svg{width:22px;height:22px}
+  .tb.on{color:var(--ink);background:var(--sea-soft)}
+  .tb.on svg{color:var(--blue)}
+  .tb:focus-visible{outline:3px solid var(--yellow)}
+  /* compact panels */
+  .panel,section{padding:14px 12px 16px;gap:12px;border-radius:18px;box-shadow:0 4px 0 var(--edge)}
+  h2{font-size:1.2rem;gap:10px}
+  h2 .ic{width:34px;height:34px;border-radius:10px}
+  .lead{font-size:.82rem}
+  /* hero: text and map side by side, small */
+  .hero{grid-template-columns:1fr 132px;gap:10px;padding:12px;border-radius:20px;align-items:start}
+  .hero h1{font-size:1.75rem}
+  .hero .eyebrow{font-size:.62rem}
+  .dates{gap:5px}.chip{font-size:.7rem;padding:2px 8px;border-width:2px}
+  .verdict{grid-column:1/-1;font-size:.82rem;padding:8px 10px}
+  .map{max-width:132px;padding:4px;border-radius:12px;grid-row:1}
+  .hero-text{display:contents}
+  .hero-text>.eyebrow,.hero-text>h1,.hero-text>.dates{grid-column:1}
+  .hero .eyebrow{grid-row:1;align-self:start}
+  .hero h1{grid-row:1;margin-top:16px}
+  .dates{grid-row:1;align-self:end}
+  .map{grid-column:2;grid-row:1}
+  /* weather: 3 compact columns */
+  .days{grid-template-columns:repeat(3,1fr);gap:6px}
+  .day{flex-direction:column;padding:8px;gap:0;border-radius:12px}
+  .day .d{font-size:.95rem;flex-basis:auto}
+  .day .d small{display:block;margin:0}
+  .day .sky{font-size:.68rem;line-height:1.3;flex-direction:column;align-items:flex-start;gap:2px}
+  .day .t{font-size:1.1rem}
+  .facts{grid-template-columns:1fr;gap:6px}
+  .fact{padding:7px 10px}
+  /* swipe rows instead of tall stacks */
+  .spots,.slots,.rods,.rigs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:2px 2px 10px;margin-inline:-2px}
+  .spots>*,.slots>*,.rods>*,.rigs>*{flex:0 0 82%;scroll-snap-align:start}
+  .slots>*{flex-basis:62%}
+  .rig{grid-template-columns:1fr}.rig h3{grid-row:auto}.rig .how{grid-column:1}
+  .swipe-hint{display:block}
+  .tip{font-size:.8rem;padding:9px 10px}
+  .shop{padding:10px 12px}
+  /* loadout */
+  .pick{padding:10px;gap:8px}
+  .optgrid{display:flex;overflow-x:auto;gap:6px;padding:2px 2px 8px}
+  .opt.card{flex:0 0 auto;max-width:170px;padding:6px 10px}
+  .fishgrid,.fishgrid.small{grid-template-columns:repeat(2,1fr);gap:8px}
+  .fish{padding:8px;gap:6px;border-radius:14px}
+  .fish h3{font-size:.92rem}
+  .fish .how{font-size:.7rem}
+  .item{padding:5px 4px;font-size:.88rem}
+  .group{padding:6px 8px 2px}
+  .modal-card{padding:14px}
+  .m-sprite .sprite{width:180px}
+}
+.swipe-hint{display:none;font-size:.72rem;color:var(--muted);margin:-6px 0 0}
+/* my gear + dex */
+#mygear h2 .ic{background:var(--red)}
+#dex h2 .ic{background:var(--green)}
+.gearlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.gcard{border:3px solid var(--edge);border-radius:16px;padding:10px 12px;background:var(--surface);box-shadow:0 4px 0 var(--edge);display:flex;flex-direction:column;gap:4px;min-width:0}
+.gcard.on{background:var(--sea-soft)}
+.gcard b{font-family:var(--display);font-weight:400;font-size:1.05rem}
+.gcard .gs{font-size:.78rem;color:var(--muted)}
+.gcard .gbtns{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.empty{border:3px dashed var(--line);border-radius:16px;padding:14px;color:var(--muted);font-size:.86rem;text-align:center}
+.addbox{border:3px solid var(--edge);border-radius:16px;background:var(--bg);padding:0 12px}
+.addbox summary{cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 0;font-weight:800;list-style:none}
+.addbox summary::-webkit-details-marker{display:none}
+.addbox summary svg{width:18px;height:18px;color:var(--blue)}
+.addbox summary:focus-visible{outline:3px solid var(--yellow)}
+.form{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;padding-bottom:12px}
+.form>label{font-size:.8rem;font-weight:800;color:var(--muted)}
+.form input,.form select{font:inherit;font-size:16px;min-width:0;width:100%;padding:7px 10px;border:3px solid var(--edge);border-radius:12px;background:var(--surface);color:var(--ink)}
+.form input:focus-visible,.form select:focus-visible{outline:3px solid var(--yellow);outline-offset:1px}
+.form .note,.formbtns{grid-column:1/-1}
+.formbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pbtn{font:inherit;font-weight:800;font-size:.88rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;border:3px solid var(--edge);background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--edge);transition:transform .08s,box-shadow .08s}
+.pbtn svg{width:16px;height:16px}
+.pbtn:active{transform:translateY(4px);box-shadow:0 0 0 var(--edge)}
+.pbtn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.pbtn.ghost{background:var(--surface);color:var(--ink)}
+.pbtn.sm{font-size:.76rem;padding:3px 10px;box-shadow:0 3px 0 var(--edge)}
+.pbtn.danger{background:var(--surface);color:var(--camellia)}
+.pbtn.danger.armed{background:var(--camellia);color:#fff}
+.dexhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.dexhead .progress{flex:1;min-width:180px}
+.complete{border:3px solid var(--edge);border-radius:16px;background:var(--yellow);color:#1b1f2a;padding:10px 14px;font-weight:800;display:flex;gap:10px;align-items:center;box-shadow:0 4px 0 var(--edge);animation:pop .4s ease-out}
+.complete span{font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--red)}
+.dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.dx{font:inherit;color:inherit;cursor:pointer;border:3px solid var(--edge);border-radius:14px;background:var(--surface);padding:6px 6px 8px;display:flex;flex-direction:column;gap:4px;align-items:stretch;box-shadow:0 3px 0 var(--edge);min-width:0;text-align:left;position:relative}
+.dx:active{transform:translateY(3px);box-shadow:none}
+.dx:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.dx .fi{border-radius:10px;background:var(--tile);display:grid;place-items:center;padding:4px 0}
+.dx.no .fi{background:var(--bg)}
+.dx .no-n{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+.dx b{font-size:.8rem;line-height:1.3;overflow-wrap:anywhere}
+.dx.no b{color:var(--muted)}
+.dx .cnt{position:absolute;top:4px;right:4px;font-family:var(--mono);font-size:.68rem;padding:0 6px;border-radius:999px;background:var(--yellow);color:#1b1f2a;border:2px solid var(--edge)}
+.dx.hz{border-style:dashed}
+.loglist{display:flex;flex-direction:column;gap:8px}
+.log{border:3px solid var(--edge);border-radius:14px;background:var(--surface);padding:8px 10px;display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;min-width:0}
+.log .ld{font-family:var(--mono);font-size:.8rem;color:var(--muted);grid-row:span 2}
+.log b{font-size:.92rem;min-width:0;overflow-wrap:anywhere}
+.log .lm{font-size:.76rem;color:var(--muted);grid-column:2;min-width:0;overflow-wrap:anywhere}
+.log .pbtn{grid-row:span 2}
+.m-extra{display:flex;flex-direction:column;gap:6px}
+.m-extra:empty{display:none}
+.m-extra h4{margin:4px 0 0;font-family:var(--display);font-weight:400;font-size:1rem}
+.m-rec{font-size:.84rem;border:2px solid var(--line);border-radius:10px;padding:6px 10px}
+.mark{font-size:.7rem;font-weight:800;padding:1px 8px;border-radius:999px;background:var(--green);color:#fff;border:2px solid var(--edge)}
+.fish .mark{align-self:flex-start}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--surface);border:3px solid var(--edge);border-radius:999px;padding:8px 18px;font-weight:800;box-shadow:0 4px 0 var(--edge);max-width:calc(100% - 32px);animation:pop .25s ease-out}
+@media (min-width:721px){.toast{bottom:24px}}
+@media (max-width:720px){
+  .tabbar{grid-template-columns:repeat(6,1fr)}
+  .tb{font-size:.62rem}
+  .dexgrid{grid-template-columns:repeat(3,1fr);gap:7px}
+  .gearlist{display:flex;overflow-x:auto;gap:8px;padding:2px 2px 8px}
+  .gearlist>.gcard{flex:0 0 78%}
+  .form{grid-template-columns:1fr;gap:4px}
+  .form>label{margin-top:4px}
+}
+
+footer{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:6px;padding:0 6px}
+footer a{color:var(--sea)}
+footer ul{margin:0;padding-left:1.1em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero" data-tab="home">
+    <div class="hero-text">
+      <span class="eyebrow">Izu Oshima Fishing Trip</span>
+      <h1>伊豆大島<br><span>釣り遠征</span></h1>
+      <div class="dates">
+        <span class="chip"><i data-lucide="calendar"></i>10/10（土）〜 10/12（月・祝）</span>
+        <span class="chip"><i data-lucide="moon"></i>大潮・新月</span>
+      </div>
+      <div class="verdict">
+        予報は<b>北東の風</b>が続く見込み。風裏になる<b>元町港</b>を第一候補、<b>波浮港</b>を次点に。
+      </div>
+    </div>
+
+    <figure class="map" aria-label="伊豆大島の地図。北東から風が吹き、西側の元町港と南東の波浮港が風裏になる">
+      <svg viewBox="0 0 320 400" role="img">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--camellia)"/>
+          </marker>
+        </defs>
+        <!-- depth rings -->
+        <g fill="none" stroke="var(--sea-deep)" stroke-width="1.2">
+          <path d="M160,4 C214,6 266,58 276,118 C292,186 290,270 266,330 C248,378 206,398 162,398 C114,398 80,370 64,326 C42,270 30,206 40,152 C52,80 100,4 160,4 Z"/>
+          <path d="M160,16 C206,18 250,64 260,120 C274,180 272,260 252,318 C236,360 200,386 162,386 C122,386 92,360 78,320 C58,266 46,206 56,156 C66,90 108,16 160,16 Z" stroke-dasharray="3 5"/>
+        </g>
+        <!-- island -->
+        <path d="M160,30 C200,32 238,72 248,120 C262,176 262,256 242,310 C228,350 198,374 166,374 C130,374 104,348 92,308 C76,258 64,208 72,162 C80,102 116,30 160,30 Z" fill="var(--land)"/>
+        <!-- Mihara-yama -->
+        <g fill="none" stroke="var(--land-top)" stroke-width="2">
+          <ellipse cx="176" cy="196" rx="42" ry="34"/>
+          <ellipse cx="176" cy="196" rx="24" ry="19"/>
+        </g>
+        <circle cx="176" cy="196" r="7" fill="var(--land-top)"/>
+        <text x="176" y="246" text-anchor="middle" font-size="11" fill="#ffffff" font-family="var(--body)" font-weight="700">三原山</text>
+
+        <!-- wind -->
+        <g>
+          <line x1="306" y1="18" x2="262" y2="62" stroke="var(--camellia)" stroke-width="3" marker-end="url(#ah)"/>
+          <line x1="296" y1="54" x2="270" y2="80" stroke="var(--camellia)" stroke-width="2" opacity=".55" marker-end="url(#ah)"/>
+          <text x="314" y="40" text-anchor="end" font-size="11" font-weight="700" fill="var(--camellia)" font-family="var(--body)">北東風</text>
+        </g>
+
+        <!-- ports -->
+        <g font-family="var(--body)" font-size="13" font-weight="700">
+          <!-- Okada -->
+          <circle cx="156" cy="34" r="7" fill="var(--warn)" stroke="var(--bg)" stroke-width="2.5"/>
+          <text x="140" y="26" text-anchor="end" fill="var(--ink)">岡田港</text>
+          <!-- Senzu -->
+          <circle cx="236" cy="98" r="7" fill="var(--warn)" stroke="var(--bg)" stroke-width="2.5"/>
+          <text x="252" y="114" fill="var(--ink)">泉津</text>
+          <!-- Motomachi -->
+          <circle cx="72" cy="186" r="9" fill="var(--ok)" stroke="var(--bg)" stroke-width="2.5"/>
+          <text x="56" y="182" text-anchor="end" fill="var(--ink)">元町港</text>
+          <text x="56" y="198" text-anchor="end" font-size="10" font-weight="500" fill="var(--ok)">第一候補</text>
+          <!-- Habu -->
+          <circle cx="212" cy="350" r="8" fill="var(--sea)" stroke="var(--bg)" stroke-width="2.5"/>
+          <text x="228" y="366" fill="var(--ink)">波浮港</text>
+        </g>
+        <!-- tackle shops -->
+        <g font-family="var(--mono)" font-size="10" font-weight="700" text-anchor="middle">
+          <rect x="84" y="196" width="16" height="16" rx="4" fill="var(--camellia)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="92" y="208" fill="#ffffff">1</text>
+          <rect x="98" y="76" width="16" height="16" rx="4" fill="var(--camellia)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="106" y="88" fill="#ffffff">2</text>
+          <rect x="166" y="46" width="16" height="16" rx="4" fill="var(--camellia)" stroke="var(--bg)" stroke-width="2"/>
+          <text x="174" y="58" fill="#ffffff">3</text>
+        </g>
+        <text x="300" y="392" text-anchor="end" font-size="10" fill="var(--muted)" font-family="var(--body)">N ↑</text>
+      </svg>
+    </figure>
+  </header>
+
+  <div class="menu">
+    <nav aria-label="目次">
+      <span class="lbl">MENU</span>
+      <a href="#weather"><i data-lucide="cloud-sun"></i>天気</a>
+      <a href="#tide"><i data-lucide="clock"></i>時合い</a>
+      <a href="#spots"><i data-lucide="map-pin"></i>釣り場</a>
+      <a href="#shops"><i data-lucide="store"></i>釣具屋</a>
+      <a href="#tackle"><i data-lucide="backpack"></i>装備</a>
+      <a href="#catch"><i data-lucide="gamepad-2"></i>装備セレクト</a>
+      <a href="#mygear"><i data-lucide="backpack"></i>マイ装備</a>
+      <a href="#dex"><i data-lucide="book-open"></i>図鑑</a>
+      <a href="#list"><i data-lucide="list-checks"></i>持ち物</a>
+    </nav>
+  </div>
+
+  <section id="weather" data-tab="home">
+    <h2><span class="ic"><i data-lucide="cloud-sun"></i></span>天気と海</h2>
+    <div class="days">
+      <div class="day">
+        <div class="d">10/10<small>土</small></div>
+        <div class="sky"><i data-lucide="cloud-sun"></i>くもり時々晴れ</div>
+        <div class="t num">25°<span class="lo"> / 19°</span></div>
+        <div class="p">降水 <span class="num">20%</span></div>
+      </div>
+      <div class="day">
+        <div class="d">10/11<small>日</small></div>
+        <div class="sky"><i data-lucide="sun"></i>晴れ時々くもり</div>
+        <div class="t num">26°<span class="lo"> / 19°</span></div>
+        <div class="p">降水 <span class="num">20%</span></div>
+      </div>
+      <div class="day">
+        <div class="d">10/12<small>月・祝</small></div>
+        <div class="sky"><i data-lucide="cloud-sun"></i>くもり時々晴れ</div>
+        <div class="t num">26°<span class="lo"> / 20°</span></div>
+        <div class="p">降水 <span class="num">30%</span></div>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><i data-lucide="wind"></i><div><b>北東の風・やや強く</b><span>波 2〜2.5m、うねりあり</span></div></div>
+      <div class="fact"><i data-lucide="waves"></i><div><b>3日間とも大潮</b><span>10/11ごろ新月。夜は真っ暗</span></div></div>
+      <div class="fact"><i data-lucide="sunrise"></i><div><b class="num">5:44 / 17:15</b><span>日の出 / 日の入</span></div></div>
+    </div>
+    <p class="note">気象庁の週間予報（10/8 発表、信頼度A）をもとにした目安です。出発前と当日朝に最新の予報を確認してください。</p>
+  </section>
+
+  <section id="tide" data-tab="tide">
+    <h2><span class="ic"><i data-lucide="clock"></i></span>潮と時合い</h2>
+    <p class="lead">満潮・干潮の前後は潮の流れが止まる「潮止まり」になり、魚の食いが落ちやすくなります。潮が動いている時間と、日の出・日の入り前後の「マヅメ」が狙い目です。ただし、足元の穴釣りは潮の影響を比較的受けにくい釣り方です。</p>
+    <div class="daytabs" role="tablist" aria-label="日付を選ぶ">
+      <button type="button" role="tab" id="tab0" class="dt on" data-d="0">10/10 土</button>
+      <button type="button" role="tab" id="tab1" class="dt" data-d="1">10/11 日</button>
+      <button type="button" role="tab" id="tab2" class="dt" data-d="2">10/12 月祝</button>
+    </div>
+    <div class="tidebox">
+      <div class="tidechart" id="tidechart" aria-label="潮位グラフ"></div>
+      <div class="legend">
+        <span><i class="sw go"></i>おすすめ</span>
+        <span><i class="sw slack"></i>潮止まり</span>
+      </div>
+    </div>
+    <p class="swipe-hint">← 横にスワイプ →</p>
+    <div class="slots" id="slots"></div>
+    <p class="note">潮位は気象庁の潮位表（岡田）より。元町港・波浮港もほぼ同じ時刻と考えて問題ありません。</p>
+  </section>
+
+  <section id="spots" data-tab="map">
+    <h2><span class="ic"><i data-lucide="map-pin"></i></span>釣り場</h2>
+    <p class="swipe-hint">← 横にスワイプ →</p>
+    <div class="spots">
+      <article class="spot">
+        <header><h3>元町港</h3><span class="tag go">北東風で第一候補</span></header>
+        <span class="pos">島の西岸</span>
+        <p>広い桟橋。足元は岩と砂地が混ざり、夜のぶっこみ向き。西風の日は波をかぶります。</p>
+      </article>
+      <article class="spot">
+        <header><h3>波浮港</h3><span class="tag ok">風に強い避難先</span></header>
+        <span class="pos">南東端の入江</span>
+        <p>入江で波も風も穏やか。天気が崩れたときの逃げ場所に。</p>
+      </article>
+      <article class="spot">
+        <header><h3>岡田港</h3><span class="tag no">北東風では不向き</span></header>
+        <span class="pos">島の北東部</span>
+        <p>水深があり魚影が濃い港。西〜南西風の日に強く、北〜北東風は正面寄りになります。</p>
+      </article>
+      <article class="spot">
+        <header><h3>泉津漁港</h3><span class="tag no">北東風では不向き</span></header>
+        <span class="pos">島の北東岸</span>
+        <p>小さく静かな港で、ブラクリの穴釣り向き。西風の日に狙い目。</p>
+      </article>
+    </div>
+    <div class="tip"><i data-lucide="ship"></i><div>その日に大型客船やジェット船が着く港（元町か岡田）が、穏やかな側の目安です。発着港は東海汽船のサイトで当日発表されます。船の発着時は桟橋から離れ、立入禁止の表示に従ってください。</div></div>
+  </section>
+
+  <section id="shops" data-tab="map">
+    <h2><span class="ic"><i data-lucide="store"></i></span>釣具屋・エサの調達先</h2>
+    <p class="lead">番号は上の地図の赤い四角と対応しています。営業時間はネット上の情報なので、行く前に電話で確認すると確実です。</p>
+    <div class="shops">
+      <article class="shop">
+        <span class="badge">1</span>
+        <h3>丸市釣漁具店<small>元町港から徒歩圏</small></h3>
+        <div class="meta">
+          <span><i data-lucide="clock"></i>7:00〜18:00 ／ 月曜定休</span>
+          <span><i data-lucide="phone"></i><span class="tel num">04992-2-1343</span></span>
+        </div>
+        <p>元町2丁目。島の釣具とエサが揃う主力店。10/12（月・祝）は休みの可能性があるので、エサは前日までに。</p>
+      </article>
+      <article class="shop">
+        <span class="badge">2</span>
+        <h3>伊豆大島海産物センター<small>元町の北・風待</small></h3>
+        <div class="meta">
+          <span><i data-lucide="clock"></i>9:00〜17:00 ／ 火曜定休</span>
+          <span><i data-lucide="phone"></i><span class="tel num">04992-2-7085</span></span>
+        </div>
+        <p>土産物店ですが、釣りエサや一部の釣具も扱っています。釣り場の相談にも乗ってもらえるとの声あり。</p>
+      </article>
+      <article class="shop">
+        <span class="badge">3</span>
+        <h3>大沼商店<small>岡田港の近く</small></h3>
+        <div class="meta">
+          <span><i data-lucide="clock"></i>営業時間不定</span>
+          <span><i data-lucide="phone"></i><span class="tel num">04992-2-8117</span></span>
+        </div>
+        <p>店が閉まっていることが多く、電話すると対応してもらえる形のようです。岡田港で釣るときの予備に。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="tackle" data-tab="gear">
+    <h2><span class="ic"><i data-lucide="backpack"></i></span>装備</h2>
+    <p class="swipe-hint">← 横にスワイプ →</p>
+    <div class="rods">
+      <article class="gear">
+        <div class="gear-top">
+          <div class="slot"><i data-lucide="swords"></i></div>
+          <div class="gear-name">
+            <span class="slot-label">メイン装備 ／ SLOT A</span>
+            <h3>パックスティック 10-180</h3>
+            <span class="rarity">★★★ <em>万能型</em></span>
+          </div>
+        </div>
+        <dl class="stats">
+          <div><dt>パワー</dt><dd><span class="meter" style="--v:3"></span><span class="num">3</span></dd></div>
+          <div><dt>飛距離</dt><dd><span class="meter" style="--v:3"></span><span class="num">3</span></dd></div>
+          <div><dt>粘り</dt><dd><span class="meter" style="--v:3"></span><span class="num">3</span></dd></div>
+          <div><dt>汎用性</dt><dd><span class="meter" style="--v:4"></span><span class="num">4</span></dd></div>
+        </dl>
+        <div class="equip">
+          <span><i data-lucide="disc-3"></i>1000番リール</span>
+          <span><i data-lucide="spline"></i>ナイロン 2〜2.5号</span>
+        </div>
+        <div class="skills"><span class="sk">胴つき</span><span class="sk">ぶっこみ</span><span class="sk">エギング</span><span class="sk">チョイ投げ</span></div>
+        <p class="flavor">条件：竿の適合錘の範囲内で使うこと</p>
+      </article>
+      <article class="gear">
+        <div class="gear-top">
+          <div class="slot alt"><i data-lucide="shield"></i></div>
+          <div class="gear-name">
+            <span class="slot-label">サブ装備 ／ SLOT B</span>
+            <h3>マスレンジャー</h3>
+            <span class="rarity">★★ <em>グラスソリッド・粘特化</em></span>
+          </div>
+        </div>
+        <dl class="stats">
+          <div><dt>パワー</dt><dd><span class="meter" style="--v:2"></span><span class="num">2</span></dd></div>
+          <div><dt>飛距離</dt><dd><span class="meter" style="--v:1"></span><span class="num">1</span></dd></div>
+          <div><dt>粘り</dt><dd><span class="meter" style="--v:5"></span><span class="num">5</span></dd></div>
+          <div><dt>汎用性</dt><dd><span class="meter" style="--v:2"></span><span class="num">2</span></dd></div>
+        </dl>
+        <div class="equip">
+          <span><i data-lucide="disc-3"></i>2000番リール</span>
+          <span><i data-lucide="spline"></i>ナイロン 3号前後</span>
+        </div>
+        <div class="skills"><span class="sk">ブラクリ</span><span class="sk">軽めの胴つき</span></div>
+        <p class="flavor">条件：トラウト用。重い仕掛けの投げは不可、足元に落とす釣り専用</p>
+      </article>
+    </div>
+
+    <h3 class="sub"><i data-lucide="sparkles"></i>スキル（釣り方）</h3>
+    <div class="rigs">
+      <article class="rig">
+        <h3>ブラクリ<small>穴釣り ／ Rod B</small></h3>
+        <dl>
+          <dt>オモリ</dt><dd class="num">2〜3号（7.5〜11g）</dd>
+          <dt>針</dt><dd>市販ブラクリ付属のまま</dd>
+          <dt>狙い</dt><dd>カサゴ、アカハタ、ムラソイ</dd>
+        </dl>
+        <p class="how">テトラの隙間や足元に落とす。掛けたら根に潜られる前にすぐ浮かせる。</p>
+      </article>
+      <article class="rig">
+        <h3>胴つき<small>足元探り ／ A・B</small></h3>
+        <dl>
+          <dt>オモリ</dt><dd class="num">ナス型 3〜5号（11〜19g）<br><span style="color:var(--muted);font-family:var(--body)">Rod B は3号まで</span></dd>
+          <dt>針</dt><dd>丸セイゴ 8〜10号、カワハギ針 4〜5号</dd>
+          <dt>狙い</dt><dd>カワハギ、ウマヅラ、ベラ、小型根魚</dd>
+        </dl>
+        <p class="how">底を取って糸を軽く張り、アタリを待つ。予備の仕掛けは多めに。</p>
+      </article>
+      <article class="rig">
+        <h3>ぶっこみ<small>夜の置き竿 ／ Rod A</small></h3>
+        <dl>
+          <dt>オモリ</dt><dd>ナス型・中通し（竿の適合錘内）</dd>
+          <dt>針</dt><dd class="num">丸セイゴ 11〜13号（太軸）</dd>
+          <dt>狙い</dt><dd>大型カサゴ、ウツボなど</dd>
+        </dl>
+        <p class="how">サバの切身やイカ短冊を付けて置き竿。ウツボは噛むので針外しは道具で。</p>
+      </article>
+      <article class="rig">
+        <h3>エギング<small>アオリイカ ／ Rod A</small></h3>
+        <dl>
+          <dt>エギ</dt><dd class="num">2.5号（3号は竿の適合次第）</dd>
+          <dt>狙い</dt><dd>アオリイカ（秋の新子）</dd>
+        </dl>
+        <p class="how">着底させてから、しゃくり→フォールの繰り返し。投げるときは優しく。</p>
+      </article>
+    </div>
+    <p class="note">オモリの号数：1号 ＝ 3.75g</p>
+  </section>
+
+  <section id="mygear" data-tab="gear">
+    <h2><span class="ic"><i data-lucide="backpack"></i></span>マイ装備</h2>
+    <p class="lead">持っている竿とリールを登録しておくと、ワンタップで装備セレクトに反映できます。</p>
+    <div class="gearlist" id="gearlist"></div>
+    <details class="addbox" id="gearform-box">
+      <summary><i data-lucide="plus"></i>装備を登録する</summary>
+      <form id="gearform" class="form">
+        <label for="g-name">名前</label>
+        <input id="g-name" type="text" maxlength="30" placeholder="例：パックスティック＋1000番" required>
+        <label for="g-rod">竿の種類</label>
+        <select id="g-rod"></select>
+        <label for="g-reel">リール</label>
+        <select id="g-reel"></select>
+        <label for="g-line">ライン</label>
+        <input id="g-line" type="text" maxlength="30" placeholder="例：ナイロン2号">
+        <label for="g-note">メモ</label>
+        <input id="g-note" type="text" maxlength="60" placeholder="例：適合錘 5〜15g">
+        <div class="formbtns"><button type="submit" class="pbtn">登録する</button></div>
+      </form>
+    </details>
+  </section>
+
+  <section id="catch" data-tab="gear">
+    <h2><span class="ic"><i data-lucide="gamepad-2"></i></span>装備セレクト</h2>
+    <p class="lead">竿とリールを選ぶと、狙える魚と使うべき仕掛けが表示されます。魚をタップすると、毒や棘の有無と食べ方が見られます。</p>
+    <div class="pick">
+      <div class="pickhead"><span class="pk-lbl">ROD</span><span class="note">竿を1本選ぶ</span></div>
+      <div class="optgrid" id="rodgrid"></div>
+      <div class="pickhead"><span class="pk-lbl">REEL</span><span class="note">リールを1つ選ぶ</span></div>
+      <div class="optgrid reels" id="reelgrid"></div>
+    </div>
+    <div class="result">
+      <div class="res-head"><span class="eyebrow">CATCH LIST</span><span id="res-count" class="num"></span></div>
+      <div class="fishgrid" id="fishgrid"></div>
+      <div class="res-head sub2"><span class="eyebrow">外道に注意（掛かることがある危険な魚）</span></div>
+      <div class="fishgrid small" id="hazgrid"></div>
+      <div class="res-head sub2"><span class="eyebrow">使うべき仕掛け</span></div>
+      <div class="riglist" id="riglist"></div>
+      <div class="locked" id="locked"></div>
+    </div>
+  </section>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-back" id="modal-back"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="m-name">
+      <button type="button" class="m-close" id="m-close" aria-label="閉じる"><i data-lucide="x"></i></button>
+      <div class="m-sprite" id="m-sprite"></div>
+      <h3 id="m-name"></h3>
+      <div class="m-badges" id="m-badges"></div>
+      <dl class="m-dl" id="m-dl"></dl>
+      <div class="m-extra" id="m-extra"></div>
+    </div>
+  </div>
+
+  <section id="dex" data-tab="dex">
+    <h2><span class="ic"><i data-lucide="book-open"></i></span>釣果図鑑</h2>
+    <div class="dexhead">
+      <div class="progress"><span class="num" id="dex-count">0 / 0</span><div class="bar"><i id="dex-fill"></i></div></div>
+      <button type="button" class="pbtn" id="add-catch"><i data-lucide="fish"></i>釣果を登録</button>
+    </div>
+    <div class="complete" id="complete" hidden><span>COMPLETE!</span>伊豆大島の全種を記録しました</div>
+    <p class="lead">まだ釣れていない魚はシルエットで表示されます。タップすると狙い方と記録が見られます。</p>
+    <div class="dexgrid" id="dexgrid"></div>
+    <h3 class="sub"><i data-lucide="scroll-text"></i>釣果ログ</h3>
+    <div class="loglist" id="loglist"></div>
+    <details class="addbox">
+      <summary><i data-lucide="hard-drive"></i>データの書き出し・読み込み</summary>
+      <div class="form">
+        <p class="note">記録はこの端末のブラウザに保存されます。別の端末に移すときは、書き出したファイルを移した先で読み込んでください。</p>
+        <div class="formbtns">
+          <button type="button" class="pbtn ghost" id="exp-btn"><i data-lucide="download"></i>書き出す</button>
+          <label class="pbtn ghost" for="imp-file"><i data-lucide="upload"></i>読み込む</label>
+          <input type="file" id="imp-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="note" id="io-msg" role="status"></p>
+      </div>
+    </details>
+  </section>
+
+  <div class="modal" id="cmodal" hidden>
+    <div class="modal-back" id="cmodal-back"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="c-title">
+      <button type="button" class="m-close" id="c-close" aria-label="閉じる"><i data-lucide="x"></i></button>
+      <h3 id="c-title">釣果を登録</h3>
+      <form id="catchform" class="form">
+        <label for="c-fish">魚</label>
+        <select id="c-fish" required></select>
+        <label for="c-date">日付</label>
+        <input id="c-date" type="date" required>
+        <label for="c-port">場所</label>
+        <select id="c-port"><option>元町港</option><option>波浮港</option><option>岡田港</option><option>泉津漁港</option><option>その他</option></select>
+        <label for="c-size">サイズ（cm）</label>
+        <input id="c-size" type="number" min="0" max="300" step="0.5" inputmode="decimal" placeholder="例：18">
+        <label for="c-gear">装備</label>
+        <select id="c-gear"></select>
+        <label for="c-method">釣り方</label>
+        <select id="c-method"></select>
+        <label for="c-memo">メモ</label>
+        <input id="c-memo" type="text" maxlength="80" placeholder="例：夕マヅメ、サバ切身で">
+        <div class="formbtns"><button type="submit" class="pbtn">登録する</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <section id="list" data-tab="list">
+    <h2><span class="ic"><i data-lucide="list-checks"></i></span>持ち物</h2>
+    <div class="progress"><span class="num" id="count">0 / 0</span><div class="bar"><i id="fill"></i></div><button class="reset" id="reset" type="button">リセット</button></div>
+    <div class="check" id="checklist">
+      <div class="group"><span class="eyebrow">エサ</span>
+        <label class="item"><input type="checkbox" id="c1"><span>サバの切身（スーパーで調達）</span></label>
+        <label class="item"><input type="checkbox" id="c2"><span>イカ短冊（生イカを細切り）</span></label>
+        <label class="item"><input type="checkbox" id="c3"><span>オキアミ（島内の釣具店：丸市釣漁具店、大沼商店など）</span></label>
+      </div>
+      <div class="group"><span class="eyebrow">安全</span>
+        <label class="item"><input type="checkbox" id="c4"><span>ライフジャケット</span></label>
+        <label class="item"><input type="checkbox" id="c5"><span>フィッシュグリップ（ゴンズイ、ハオコゼ、アイゴは素手で触らない）</span></label>
+        <label class="item"><input type="checkbox" id="c6"><span>針外し・プライヤー</span></label>
+      </div>
+      <div class="group"><span class="eyebrow">夜釣り</span>
+        <label class="item"><input type="checkbox" id="c7"><span>ヘッドライト＋予備電池</span></label>
+        <label class="item"><input type="checkbox" id="c8"><span>ケミホタル（25〜37サイズ）</span></label>
+      </div>
+      <div class="group"><span class="eyebrow">その他</span>
+        <label class="item"><input type="checkbox" id="c9"><span>水くみバケツ、ハサミ、予備の針・オモリ・仕掛け</span></label>
+        <label class="item"><input type="checkbox" id="c10"><span>クーラーボックス＋保冷剤、ジップロック</span></label>
+        <label class="item"><input type="checkbox" id="c11"><span>薄手の上着＋ウインドブレーカー（朝晩19℃前後、風あり）</span></label>
+        <label class="item"><input type="checkbox" id="c12"><span>ゴミ袋、日焼け対策</span></label>
+      </div>
+    </div>
+  </section>
+
+  <footer data-tab="home">
+    <span>参考</span>
+    <ul>
+      <li><a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&amp;area_code=130000" target="_blank" rel="noopener">気象庁 東京都（伊豆諸島）の天気予報</a></li>
+      <li><a href="https://tenki.jp/wave/3/16/137/" target="_blank" rel="noopener">tenki.jp 大島の海の天気</a></li>
+      <li><a href="https://www.tokaikisen.co.jp/" target="_blank" rel="noopener">東海汽船（当日の発着港）</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+<nav class="tabbar" aria-label="画面切り替え">
+  <button type="button" class="tb" data-t="home"><i data-lucide="house"></i><span>ホーム</span></button>
+  <button type="button" class="tb" data-t="tide"><i data-lucide="clock"></i><span>時合い</span></button>
+  <button type="button" class="tb" data-t="map"><i data-lucide="map-pin"></i><span>釣り場</span></button>
+  <button type="button" class="tb" data-t="gear"><i data-lucide="gamepad-2"></i><span>装備</span></button>
+  <button type="button" class="tb" data-t="dex"><i data-lucide="book-open"></i><span>図鑑</span></button>
+  <button type="button" class="tb" data-t="list"><i data-lucide="list-checks"></i><span>持ち物</span></button>
+</nav>
+
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script>
+try{ window.lucide && lucide.createIcons(); }catch(e){}
+(function(){
+  var KEY='oshima-checklist-v1';
+  var boxes=[].slice.call(document.querySelectorAll('#checklist input[type=checkbox]'));
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ saved={}; }
+  function update(){
+    var done=boxes.filter(function(b){return b.checked}).length;
+    document.getElementById('count').textContent=done+' / '+boxes.length;
+    document.getElementById('fill').style.width=(boxes.length?done/boxes.length*100:0)+'%';
+  }
+  function save(){
+    var s={}; boxes.forEach(function(b){ if(b.checked) s[b.id]=1; });
+    try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){}
+  }
+  boxes.forEach(function(b){ if(saved[b.id]) b.checked=true; b.addEventListener('change',function(){save();update();}); });
+  document.getElementById('reset').addEventListener('click',function(){ boxes.forEach(function(b){b.checked=false}); save(); update(); });
+  update();
+})();
+
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.menu a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function onScroll(){
+    var y=window.scrollY+120, cur=-1;
+    secs.forEach(function(s,i){ if(s && s.offsetTop<=y) cur=i; });
+    links.forEach(function(a,i){ a.classList.toggle('on',i===cur); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+})();
+
+(function(){
+  /* tide data: 気象庁 潮位表 岡田 (cm) */
+  var DAYS=[
+    {sr:5.73,ss:17.25,ex:[[-1.93,40,'L'],[4.22,148,'H'],[10.25,51,'L'],[16.2,147,'H'],[22.57,32,'L'],[28.92,150,'H']]},
+    {sr:5.73,ss:17.23,ex:[[-1.43,32,'L'],[4.92,150,'H'],[10.75,60,'L'],[16.52,150,'H'],[23.07,23,'L'],[29.57,148,'H']]},
+    {sr:5.75,ss:17.2,ex:[[-0.93,23,'L'],[5.57,148,'H'],[11.2,70,'L'],[16.85,152,'H'],[23.57,19,'L'],[30.2,145,'H']]}
+  ];
+  function lvl(ex,t){
+    for(var i=0;i<ex.length-1;i++){var a=ex[i],b=ex[i+1];
+      if(t>=a[0]&&t<=b[0]){var f=(t-a[0])/(b[0]-a[0]);return a[1]+(b[1]-a[1])*(1-Math.cos(Math.PI*f))/2;}}
+    return ex[ex.length-1][1];
+  }
+  function hm(t){t=(t+24)%24;var h=Math.floor(t),m=Math.round((t-h)*60);if(m===60){h++;m=0}return h+':'+(m<10?'0':'')+m;}
+  function windows(d){
+    var ex=d.ex.filter(function(e){return e[0]>=0&&e[0]<24});
+    var hs=ex.filter(function(e){return e[2]==='H'}),ls=ex.filter(function(e){return e[2]==='L'});
+    var w=[];
+    w.push({a:d.sr-0.5,b:d.sr+1.0,t:'朝マヅメ',n:'日の出前後＋下げ潮の動き出し。根魚・エギングの本命',r:'BEST',go:1});
+    w.push({a:ls[0][0]+1.5,b:hs[1][0]-1.0,t:'日中の上げ潮',n:'潮がよく動く時間。胴つきでカワハギ・ベラ',r:'GOOD',go:1});
+    w.push({a:hs[1][0]+0.5,b:d.ss+1.0,t:'夕マヅメ',n:'満潮後の下げ始め＋日の入り。アオリイカも期待',r:'BEST',go:1});
+    w.push({a:d.ss+1.5,b:ls[1][0]-1.0,t:'夜の下げ潮',n:'ぶっこみの置き竿で大型カサゴ・ウツボ',r:'GOOD',go:1});
+    ex.forEach(function(e){w.push({a:e[0]-0.67,b:e[0]+0.67,t:(e[2]==='H'?'満潮':'干潮')+' '+hm(e[0]),n:'潮止まり。休憩や移動にあてる',r:'SLOW',go:0,lv:e[1]})});
+    return w;
+  }
+  function chart(i){
+    var d=DAYS[i],W=640,H=200,L=34,R=10,T=14,B=28;
+    var x=function(t){return L+(W-L-R)*t/24},y=function(v){return T+(H-T-B)*(1-v/170)};
+    var s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">';
+    windows(d).forEach(function(w){var a=Math.max(0,w.a),b=Math.min(24,w.b);if(b<=a)return;
+      s+='<rect x="'+x(a)+'" y="'+T+'" width="'+(x(b)-x(a))+'" height="'+(H-T-B)+'" fill="'+(w.go?'var(--yellow)':'url(#hatch)')+'" opacity="'+(w.go?0.55:1)+'"/>';});
+    s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="transparent"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" stroke-width="2" opacity=".55"/></pattern></defs>'+s.slice(s.indexOf('>')+1);
+    for(var h=0;h<=24;h+=3){s+='<line x1="'+x(h)+'" y1="'+T+'" x2="'+x(h)+'" y2="'+(H-B)+'" stroke="var(--ink)" stroke-opacity=".15"/>';
+      s+='<text x="'+x(h)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="var(--mono)">'+h+'</text>';}
+    [0,50,100,150].forEach(function(v){s+='<text x="'+(L-6)+'" y="'+(y(v)+4)+'" text-anchor="end" font-size="10" fill="var(--ink)" opacity=".7" font-family="var(--mono)">'+v+'</text>';});
+    var pts=[];for(var t=0;t<=24.001;t+=0.25)pts.push(x(t).toFixed(1)+','+y(lvl(d.ex,t)).toFixed(1));
+    s+='<polygon points="'+x(0)+','+(H-B)+' '+pts.join(' ')+' '+x(24)+','+(H-B)+'" fill="var(--sea)" opacity=".28"/>';
+    s+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--sea)" stroke-width="3" stroke-linejoin="round"/>';
+    d.ex.forEach(function(e){if(e[0]<0||e[0]>=24)return;var cx=x(e[0]),cy=y(e[1]);
+      s+='<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="var(--surface)" stroke="var(--edge)" stroke-width="2.5"/>';
+      s+='<text x="'+cx+'" y="'+(e[2]==='H'?cy-10:cy+18)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)" font-family="var(--body)">'+(e[2]==='H'?'満':'干')+' '+hm(e[0])+'</text>';});
+    [[d.sr,'日の出'],[d.ss,'日の入']].forEach(function(p){s+='<line x1="'+x(p[0])+'" y1="'+T+'" x2="'+x(p[0])+'" y2="'+(H-B)+'" stroke="var(--red)" stroke-width="2" stroke-dasharray="4 3"/>';});
+    s+='</svg>';
+    document.getElementById('tidechart').innerHTML=s;
+    var html='';
+    windows(d).sort(function(a,b){return a.a-b.a}).forEach(function(w){
+      html+='<div class="slotc'+(w.go?'':' slack')+'"><span class="rank">'+w.r+'</span><div class="tm">'+hm(w.a)+'〜'+hm(w.b)+'</div><b>'+w.t+'</b><span>'+w.n+'</span></div>';});
+    document.getElementById('slots').innerHTML=html;
+  }
+  var tabs=[].slice.call(document.querySelectorAll('.dt'));
+  tabs.forEach(function(b){b.addEventListener('click',function(){tabs.forEach(function(x){x.classList.remove('on');x.setAttribute('aria-selected','false')});b.classList.add('on');b.setAttribute('aria-selected','true');chart(+b.dataset.d);});});
+  chart(0);
+
+  /* ===== loadout ===== */
+  var METHODS={
+    bura:{n:'ブラクリ（穴釣り）',rig:{'仕掛け':'市販のブラクリ（オモリと針が一体）','オモリ':'1〜3号（3.75〜11g）','道糸':'ナイロン 3〜4号 直結','エサ':'サバ切身、イカ短冊、オキアミ'},tip:'テトラや岩の隙間に落とし、掛かったらすぐ浮かせる'},
+    dou:{n:'胴つき（足元の底）',rig:{'仕掛け':'市販の胴つき2〜3本針（カワハギ仕掛けなど）','オモリ':'ナス型 3〜8号（竿の適合内）','ハリス':'2〜3号','針':'丸セイゴ 8〜10号 ／ カワハギ針 4〜5号','エサ':'アサリむき身、オキアミ、イカ短冊'},tip:'底を取って糸を張り、小さなアタリで合わせる'},
+    bukko:{n:'ぶっこみ（夜の置き竿）',rig:{'仕掛け':'中通しオモリ → サルカン → ハリス 50cm → 針','オモリ':'中通し・ナス型 5〜15号（竿の適合内）','ハリス':'フロロ 4〜6号','針':'丸セイゴ 12〜13号（太軸）','エサ':'サバ切身、イカ短冊'},tip:'投げたら糸ふけを取って置き竿。夜はケミホタルを竿先に'},
+    egi:{n:'エギング',rig:{'仕掛け':'エギ（餌木）','エギ':'2.5〜3.5号（秋の新子は2.5〜3号）','道糸':'PE 0.6〜0.8号（ナイロンなら2号）','リーダー':'フロロ 2〜2.5号 1.5m'},tip:'着底 → 2〜3回しゃくる → フォールで抱かせる'},
+    sabiki:{n:'サビキ',rig:{'仕掛け':'サビキ仕掛け＋コマセカゴ','針':'4〜7号','オモリ':'カゴ付き 5〜8号','エサ':'アミエビ（コマセ）'},tip:'カゴを群れのタナに入れて竿をあおり、コマセを出す'},
+    fukase:{n:'ウキフカセ',rig:{'仕掛け':'円錐ウキ（B〜0号）＋ガン玉','道糸':'ナイロン 2〜2.5号','ハリス':'フロロ 1.5〜2号 2〜3m','針':'グレ針 5〜6号','エサ':'オキアミ（撒き餌はオキアミ＋配合餌）'},tip:'撒き餌と付け餌を同じ流れに乗せる'},
+    jig:{n:'ショアジギング',rig:{'仕掛け':'メタルジグ','ジグ':'20〜40g（竿の適合内）','道糸':'PE 1〜1.5号','リーダー':'フロロ 5〜6号（20〜25lb）'},tip:'遠投 → 着底 → ただ巻きやジャークで青物を狙う'},
+    light:{n:'ライトゲーム（ジグ単）',rig:{'仕掛け':'ジグヘッド＋ワーム','ジグヘッド':'1〜3g','道糸':'PE 0.3号 or フロロ 2〜3lb','リーダー':'フロロ 3〜4lb'},tip:'常夜灯まわりをゆっくり巻く。夜がメイン'}
+  };
+  var RODS=[
+    {id:'pack',n:'パックロッド',s:'振出・万能 〜15g',own:'パックスティック',m:{bura:2,dou:3,bukko:2,egi:2,sabiki:2,fukase:1,jig:1,light:2}},
+    {id:'trout',n:'トラウトロッド（グラス）',s:'2〜10g',own:'マスレンジャー',m:{bura:3,dou:2,sabiki:1,light:2}},
+    {id:'choi',n:'ちょい投げ・万能竿',s:'オモリ 5〜15号',m:{bura:2,dou:3,bukko:3,egi:1,sabiki:3,fukase:1,jig:1,light:1}},
+    {id:'iso',n:'磯竿',s:'1.5〜2号 4.5〜5.3m',m:{bura:2,dou:2,bukko:2,sabiki:3,fukase:3}},
+    {id:'eging',n:'エギングロッド',s:'8ft前後 エギ2.5〜3.5号',m:{bura:1,dou:2,bukko:2,egi:3,sabiki:2,jig:2,light:1}},
+    {id:'lightrod',n:'ライトゲームロッド',s:'アジング・メバリング 〜7g',m:{bura:2,dou:1,egi:1,sabiki:1,light:3}},
+    {id:'shore',n:'ショアジギング・シーバスロッド',s:'20〜60g',m:{bura:1,dou:1,bukko:2,egi:2,sabiki:2,jig:3}},
+    {id:'nage',n:'投げ竿',s:'オモリ 20〜30号',m:{dou:2,bukko:3,sabiki:1,jig:1}},
+    {id:'ana',n:'穴釣り専用ロッド',s:'1〜1.5mの短竿',m:{bura:3,dou:2,sabiki:1}}
+  ];
+  var REELS=[
+    {id:'r1000',n:'1000番',s:'細糸・軽量',own:true,mod:{bukko:-1,jig:-2,egi:-1,fukase:-1}},
+    {id:'r2500',n:'2000〜2500番',s:'堤防の標準',own:true,mod:{jig:-1}},
+    {id:'r3000',n:'3000番',s:'少し太糸も',mod:{light:-1}},
+    {id:'r4000',n:'4000番以上',s:'遠投・大物',mod:{light:-2,bura:-1,egi:-1}},
+    {id:'bait',n:'小型両軸（ベイト）',s:'落とし込み向き',mod:{egi:-2,light:-2,fukase:-2,sabiki:-1,jig:-1}}
+  ];
+  var FISH=[
+    {n:'カサゴ',m:['bura','dou','bukko','light'],w:'朝夕マヅメ・夜',p:'元町港・波浮港の足元',d:'spine',dt:'背びれとエラぶたの棘が鋭い。毒はない',h:'フィッシュグリップでつかみ、棘を避けて針を外す',c:['唐揚げ','煮付け','味噌汁'],sp:{c:'#c4472f',b:'#eba07c',l:.95,h:1.1,dorsal:'spiny',dh:7,tail:'round',pat:'mottle',pc:'#7a2416',head:1}},
+    {n:'アカハタ',m:['bura','dou'],w:'日中の上げ潮',p:'テトラ・岩の隙間',d:'spine',dt:'背びれの棘が鋭い。毒はない',h:'棘に注意してグリップでつかむ',c:['煮付け','鍋','刺身','アクアパッツァ'],sp:{c:'#dd4630',b:'#f39070',l:1,h:1,dorsal:'spiny',dh:6,tail:'round',pat:'bands',pc:'#a3200f',n:5}},
+    {n:'ムラソイ',m:['bura'],w:'朝マヅメ',p:'浅い岩の隙間',d:'spine',dt:'背びれの棘が鋭い。毒はない',h:'カサゴと同じ扱いでOK',c:['煮付け','唐揚げ','味噌汁'],sp:{c:'#5e4c3b',b:'#a08c70',l:.95,h:1.05,dorsal:'spiny',dh:6,tail:'round',pat:'mottle',pc:'#2f261d',head:1}},
+    {n:'カワハギ',m:['dou'],w:'日中の上げ潮',p:'元町港の岩と砂の境目',d:'safe',dt:'背中に1本だけ太い棘がある。毒はない',h:'口が小さく歯が硬いので、針外しを使う',c:['肝醤油の刺身','鍋','煮付け'],sp:{c:'#c9b48a',b:'#ebdfc4',l:.8,h:1.5,dorsal:'spine1',tail:'square',pat:'spots',pc:'#6e5a3a'}},
+    {n:'ウマヅラハギ',m:['dou','sabiki'],w:'日中',p:'港内の中層〜底',d:'safe',dt:'背中に1本の棘。毒はない',h:'皮が厚いので、頭から皮をはいで調理',c:['肝醤油の刺身','煮付け','鍋'],sp:{c:'#7f8a92',b:'#bcc4c8',l:1.05,h:1.05,dorsal:'spine1',tail:'square',fin:'#3b6fa8'}},
+    {n:'キュウセン（ベラ）',m:['dou'],w:'日中',p:'砂まじりの底',d:'safe',dt:'毒も鋭い棘もない',h:'ぬめりが強いので、タオルでつかむ',c:['天ぷら','南蛮漬け','塩焼き'],sp:{c:'#d9b45a',b:'#f1e4b4',l:1.15,h:.7,dorsal:'soft',tail:'round',pat:'stripe',pc:'#3a6b8f'}},
+    {n:'メジナ',m:['fukase'],w:'朝マヅメ・日中',p:'潮通しのよい岸壁',d:'spine',dt:'エラぶたと背びれがやや鋭い。毒はない',h:'秋は磯臭いことがあるので、血抜きして皮を引く',c:['刺身','塩焼き','煮付け'],sp:{c:'#2e3f48',b:'#566b76',l:.95,h:1.2,dorsal:'soft',tail:'fork'}},
+    {n:'ムロアジ・マアジ',m:['sabiki','light'],w:'朝夕マヅメ',p:'元町港・岡田港の港内',d:'safe',dt:'尾の付け根の硬いウロコ（ゼイゴ）で手を切りやすい',h:'釣れたらすぐ氷水で冷やす',c:['刺身・たたき','フライ','干物・くさや'],sp:{c:'#5d86a8',b:'#e6edf1',l:1.15,h:.75,dorsal:'soft',tail:'fork',pat:'stripe',pc:'#e8c84a',thin:1}},
+    {n:'ゴマサバ',m:['sabiki','jig'],w:'朝夕マヅメ',p:'港内・堤防先端',d:'warn',dt:'アニサキス（寄生虫）がいることがある',h:'すぐ血抜きして冷やす。生で食べるなら一度冷凍する',c:['塩焼き','味噌煮','竜田揚げ','しめ鯖（冷凍後）'],sp:{c:'#3f7a9a',b:'#ebeff1',l:1.2,h:.7,dorsal:'soft',tail:'fork',pat:'wave',pc:'#1b3c52'}},
+    {n:'ソウダガツオ',m:['jig'],w:'朝マヅメ',p:'堤防先端・潮通しのよい場所',d:'warn',dt:'鮮度が落ちるとヒスタミン中毒を起こしやすい',h:'釣れたらすぐ血抜きして氷で冷やす。生食は当日だけ',c:['漬け','たたき','竜田揚げ'],sp:{c:'#2f4f7a',b:'#e1e8ef',l:1.1,h:.85,dorsal:'soft',tail:'fork',pat:'wave',pc:'#18304f'}},
+    {n:'カンパチ（ショゴ）',m:['jig'],w:'朝マヅメ',p:'堤防先端',d:'safe',dt:'毒も鋭い棘もない',h:'引きが強いのでドラグを調整しておく',c:['刺身','しゃぶしゃぶ','カマ焼き'],sp:{c:'#9a8a5a',b:'#ebe3cb',l:1.15,h:.85,dorsal:'soft',tail:'fork',pat:'stripe',pc:'#d9a83a',eyeband:'#3a2e1a'}},
+    {n:'アオリイカ',m:['egi'],w:'朝夕マヅメ',p:'元町港・波浮港',d:'safe',dt:'毒はない。口（カラストンビ）で噛まれることがある',h:'墨を吐くので、海に向けて持ち上げる。目の間を締めると鮮度が保てる',c:['刺身','天ぷら','ゲソ焼き'],sp:{kind:'squid',c:'#cfa98c',fin:'#e6cdb6'}},
+    {n:'ウツボ',m:['bukko'],w:'夜',p:'岩場まわり',d:'danger',dt:'歯が鋭く、噛まれると大けがになる。毒はない',h:'絶対に手を近づけない。無理せずハリスを切ってリリース',c:['唐揚げ','たたき（下処理が難しい）'],sp:{kind:'eel',c:'#a5893a',pc:'#3a2c10'}}
+  ];
+  var HAZ=[
+    {n:'ゴンズイ',m:['bukko','dou','sabiki'],d:'venom',dt:'背びれと胸びれの棘に毒。死んでも毒は残る',h:'素手で触らない。ハサミでハリスを切って逃がす',c:['味噌汁・天ぷら（毒棘を落としてから）'],sp:{c:'#3b2f2a',b:'#5a4a40',l:1.1,h:.6,dorsal:'soft',tail:'round',pat:'stripe2',pc:'#e8d04a',whisker:1}},
+    {n:'ハオコゼ',m:['bura','dou'],d:'venom',dt:'背びれの棘に毒。刺されると激しく痛む',h:'素手で触らず、プライヤーで針を外して逃がす',c:['小さいので食べない'],sp:{c:'#b9402e',b:'#e07a5a',l:.8,h:1,dorsal:'spiny',dh:11,tail:'round',pat:'mottle',pc:'#6e1c12'}},
+    {n:'アイゴ',m:['fukase','sabiki','dou'],d:'venom',dt:'背・腹・尻びれの棘に毒',h:'ヒレをハサミで落としてから扱う。内臓はすぐ取る',c:['刺身','塩焼き','煮付け'],sp:{c:'#6d6a4a',b:'#aaa57c',l:1,h:1.15,dorsal:'spiny',dh:5,tail:'fork',pat:'spots',pc:'#eee8cc'}},
+    {n:'ソウシハギ',m:['dou','fukase'],d:'toxic',dt:'内臓に強い毒（パリトキシン）を持つ可能性がある',h:'食べない。持ち帰らずにリリース',c:['食べない'],sp:{c:'#a2ac9e',b:'#cbcfbf',l:1.4,h:.9,dorsal:'spine1',tail:'round',pat:'squiggle',pc:'#2f6fd6'}},
+    {n:'フグ類（クサフグなど）',m:['bura','dou','bukko','sabiki','fukase'],d:'toxic',dt:'内臓や皮に猛毒（テトロドトキシン）',h:'歯が鋭く糸を切られる。自分でさばかず、リリースする',c:['食べない'],sp:{c:'#56703f',b:'#f3f3ea',l:.8,h:1.1,dorsal:'none',tail:'round',pat:'spots',pc:'#e9e9d6'}}
+  ];
+  var DANGER={safe:['毒なし','ok'],spine:['棘に注意','warn'],warn:['取り扱い注意','warn'],venom:['毒棘あり','bad'],toxic:['食べると危険','bad'],danger:['噛まれ注意','bad']};
+
+  /* pixel sprite */
+  function sprite(sp,px,sil){
+    var W=64,H=40,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+    var cx=31,cy=21;
+    if(sp.kind==='squid'){
+      x.fillStyle=sp.fin;x.beginPath();x.ellipse(24,cy,20,11,0,0,7);x.fill();
+      x.fillStyle=sp.c;x.beginPath();x.ellipse(24,cy,16,7,0,0,7);x.fill();
+      x.fillStyle='#8a5a3e';[[16,19],[24,23],[30,18],[20,24]].forEach(function(p){x.fillRect(p[0],p[1],2,2)});
+      x.fillStyle=sp.c;x.beginPath();x.ellipse(43,cy,5,6,0,0,7);x.fill();
+      x.strokeStyle=sp.c;x.lineWidth=2;[-6,-3,0,3,6].forEach(function(o){x.beginPath();x.moveTo(46,cy+o*.6);x.quadraticCurveTo(54,cy+o,61,cy+o*1.4);x.stroke();});
+      x.fillStyle='#fff';x.beginPath();x.arc(43,cy-1,2.4,0,7);x.fill();x.fillStyle='#111';x.fillRect(43,cy-2,2,2);
+    }else if(sp.kind==='eel'){
+      x.strokeStyle=sp.c;x.lineWidth=9;x.lineCap='round';x.beginPath();x.moveTo(8,20);x.bezierCurveTo(20,8,30,32,42,20);x.bezierCurveTo(50,12,56,24,60,22);x.stroke();
+      x.fillStyle=sp.pc;[[14,15],[22,20],[30,24],[36,20],[44,17],[51,19],[56,22],[18,18]].forEach(function(p){x.fillRect(p[0],p[1],3,2)});
+      x.fillStyle='#fff';x.beginPath();x.arc(9,17,2.2,0,7);x.fill();x.fillStyle='#111';x.fillRect(8,16,2,2);
+      x.fillStyle='#7a1a10';x.fillRect(4,21,5,1);
+    }else{
+      var rx=18*(sp.l||1),ry=9*(sp.h||1),fin=sp.fin||sp.c;
+      var tx=cx+rx-3;
+      x.fillStyle=fin;x.beginPath();
+      if(sp.tail==='fork'){x.moveTo(tx,cy);x.lineTo(tx+10,cy-ry*.9);x.lineTo(tx+6,cy);x.lineTo(tx+10,cy+ry*.9);}
+      else if(sp.tail==='square'){x.moveTo(tx,cy-2);x.lineTo(tx+8,cy-ry*.6);x.lineTo(tx+8,cy+ry*.6);x.lineTo(tx,cy+2);}
+      else{x.moveTo(tx,cy);x.ellipse(tx+5,cy,6,ry*.7,0,0,7);}
+      x.fill();
+      x.fillStyle=fin;
+      if(sp.dorsal==='spiny'){var dh=sp.dh||6;x.beginPath();x.moveTo(cx-rx*.55,cy-ry*.75);for(var i=0;i<=8;i++){var fx=cx-rx*.55+i*(rx*1.1/8);x.lineTo(fx,cy-ry-(i%2?dh*.45:dh)*(1-i/14));}x.lineTo(cx+rx*.6,cy-ry*.6);x.fill();}
+      else if(sp.dorsal==='spine1'){x.fillRect(cx-rx*.35,cy-ry-7,2,9);x.beginPath();x.moveTo(cx,cy-ry*.8);x.quadraticCurveTo(cx+rx*.35,cy-ry-4,cx+rx*.7,cy-ry*.5);x.fill();}
+      else if(sp.dorsal==='soft'){x.beginPath();x.moveTo(cx-rx*.4,cy-ry*.8);x.quadraticCurveTo(cx,cy-ry-6,cx+rx*.6,cy-ry*.55);x.fill();}
+      if(sp.dorsal!=='none'){x.beginPath();x.moveTo(cx+rx*.1,cy+ry*.8);x.quadraticCurveTo(cx+rx*.35,cy+ry+4,cx+rx*.6,cy+ry*.5);x.fill();}
+      x.save();x.beginPath();
+      if(sp.head){x.ellipse(cx,cy,rx,ry,0,0,7);x.ellipse(cx-rx*.55,cy-1,rx*.5,ry*1.05,0,0,7);}else{x.ellipse(cx,cy,rx,ry,0,0,7);}
+      x.fillStyle=sp.c;x.fill();x.clip();
+      x.fillStyle=sp.b;x.fillRect(0,cy+ry*.25,W,H);
+      x.fillStyle=sp.pc||'#000';
+      var p=sp.pat;
+      if(p==='mottle'){[[-.6,-.4],[-.2,-.6],[.2,-.3],[.5,-.5],[-.3,.1],[.3,.2],[0,-.1],[.6,0]].forEach(function(q){x.fillRect(cx+q[0]*rx,cy+q[1]*ry,4,3)});}
+      if(p==='bands'){for(var b=0;b<(sp.n||4);b++){x.fillRect(cx-rx*.6+b*(rx*1.3/(sp.n||4)),cy-ry,2,ry*2)}}
+      if(p==='spots'){[[-.5,-.3],[-.2,.2],[.1,-.5],[.3,0],[.55,-.3],[-.35,.45],[.2,.45],[0,-.15],[.45,.35]].forEach(function(q){x.fillRect(cx+q[0]*rx,cy+q[1]*ry,2,2)});}
+      if(p==='stripe'){x.fillRect(cx-rx,cy-(sp.thin?1:2),rx*2,sp.thin?2:3);}
+      if(p==='stripe2'){x.fillRect(cx-rx,cy-ry*.45,rx*2,2);x.fillRect(cx-rx,cy+ry*.15,rx*2,2);}
+      if(p==='wave'){for(var k=0;k<rx*2;k+=1){var yy=cy-ry*.55+Math.sin(k*.8)*2;x.fillRect(cx-rx*.7+k,yy,1,1);var y2=cy-ry*.25+Math.sin(k*.8+2)*2;if(k%2)x.fillRect(cx-rx*.7+k,y2,1,1);}}
+      if(p==='squiggle'){for(var k2=0;k2<rx*1.6;k2+=1){x.fillRect(cx-rx*.7+k2,cy-ry*.4+Math.sin(k2*.6)*2.5,1,1);x.fillRect(cx-rx*.7+k2,cy+ry*.2+Math.cos(k2*.6)*2.5,1,1);}}
+      if(sp.eyeband){x.fillStyle=sp.eyeband;x.beginPath();x.moveTo(cx-rx*.95,cy-ry*.9);x.lineTo(cx-rx*.75,cy-ry*.9);x.lineTo(cx-rx*.35,cy);x.lineTo(cx-rx*.55,cy);x.fill();}
+      x.restore();
+      var ex=cx-rx*(sp.head?.95:.68),ey=cy-ry*.3;
+      x.fillStyle='#fff';x.beginPath();x.arc(ex,ey,2.6,0,7);x.fill();x.fillStyle='#111';x.fillRect(Math.round(ex-1),Math.round(ey-1),2,2);
+      if(sp.whisker){x.strokeStyle='#e8d04a';x.lineWidth=1;[[-2,3],[0,5],[2,4]].forEach(function(w){x.beginPath();x.moveTo(cx-rx,cy+w[0]);x.lineTo(cx-rx-6,cy+w[1]);x.stroke();});}
+    }
+    var img=x.getImageData(0,0,W,H),d=img.data;
+    for(var i2=3;i2<d.length;i2+=4){d[i2]=d[i2]>110?255:0;}
+    var out=x.createImageData(W,H),o=out.data;
+    for(var yy2=0;yy2<H;yy2++)for(var xx=0;xx<W;xx++){var j=(yy2*W+xx)*4;
+      if(d[j+3]){if(sil){o[j]=74;o[j+1]=82;o[j+2]=100;}else{o[j]=d[j];o[j+1]=d[j+1];o[j+2]=d[j+2];}o[j+3]=255;continue;}
+      var nb=false;[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(q){var ax=xx+q[0],ay=yy2+q[1];if(ax>=0&&ay>=0&&ax<W&&ay<H&&d[(ay*W+ax)*4+3])nb=true;});
+      if(nb){o[j]=20;o[j+1]=22;o[j+2]=30;o[j+3]=255;}}
+    x.clearRect(0,0,W,H);x.putImageData(out,0,0);
+    cv.className='sprite';cv.style.width=(px||128)+'px';cv.setAttribute('aria-hidden','true');
+    return cv;
+  }
+
+  var state={rod:'pack',reel:'r1000'};
+  try{var sv=JSON.parse(localStorage.getItem('oshima-loadout2')||'null');if(sv&&sv.rod&&sv.reel)state=sv;}catch(e){}
+  var G={3:['S','s','相性抜群'],2:['A','a','狙える'],1:['B','b','一応狙える']};
+  function curRod(){return RODS.filter(function(r){return r.id===state.rod})[0]||RODS[0]}
+  function curReel(){return REELS.filter(function(r){return r.id===state.reel})[0]||REELS[0]}
+  function score(k){var r=curRod().m[k]||0;if(!r)return 0;r+=curReel().mod[k]||0;return Math.max(0,Math.min(3,r));}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function buildPickers(){
+    document.getElementById('rodgrid').innerHTML=RODS.map(function(r){return '<button type="button" class="opt card" id="rod-'+r.id+'" data-k="rod" data-v="'+r.id+'"><b>'+r.n+'</b><span>'+r.s+'</span>'+(r.own?'<em>所持：'+r.own+'</em>':'')+'</button>'}).join('');
+    document.getElementById('reelgrid').innerHTML=REELS.map(function(r){return '<button type="button" class="opt card" id="reel-'+r.id+'" data-k="reel" data-v="'+r.id+'"><b>'+r.n+'</b><span>'+r.s+'</span>'+(r.own?'<em>所持</em>':'')+'</button>'}).join('');
+    document.querySelectorAll('.opt.card').forEach(function(b){b.addEventListener('click',function(){state[b.dataset.k]=b.dataset.v;render();});});
+  }
+  function fishCard(f,s,mk,haz){
+    var el=document.createElement('button');el.type='button';
+    var dg=DANGER[f.d];
+    if(haz){el.className='fish haz';}else{var g=G[s];el.className='fish '+g[1];}
+    var spr=document.createElement('div');spr.className='fi';spr.appendChild(sprite(f.sp,96));
+    el.appendChild(spr);
+    var body=document.createElement('div');body.className='fb';
+    body.innerHTML='<h3>'+esc(f.n)+(haz?'':'<span class="grade">'+G[s][0]+'</span>')+'</h3>'+
+      '<div class="how">'+esc(METHODS[mk].n)+(haz?'':' ・ '+G[s][2])+'</div>'+
+      '<span class="dg '+dg[1]+'">'+dg[0]+'</span>';
+    el.appendChild(body);
+    el.addEventListener('click',function(){openModal(f,mk,s,haz)});
+    return el;
+  }
+  function render(){
+    document.querySelectorAll('.opt.card').forEach(function(b){b.setAttribute('aria-pressed',String(state[b.dataset.k]===b.dataset.v));});
+    var grid=document.getElementById('fishgrid');grid.innerHTML='';
+    var list=FISH.map(function(f){var best=0,bm=null;f.m.forEach(function(k){var s=score(k);if(s>best){best=s;bm=k}});return {f:f,s:best,m:bm};})
+      .filter(function(x){return x.s>0}).sort(function(a,b){return b.s-a.s});
+    list.forEach(function(x){grid.appendChild(fishCard(x.f,x.s,x.m,false))});
+    if(!list.length)grid.innerHTML='<p class="note">この組み合わせで狙える魚はありません。</p>';
+    document.getElementById('res-count').textContent=list.length+' 種';
+    var hg=document.getElementById('hazgrid');hg.innerHTML='';
+    HAZ.forEach(function(f){var mk=f.m.filter(function(k){return score(k)>0})[0];if(mk)hg.appendChild(fishCard(f,0,mk,true));});
+    if(!hg.children.length)hg.innerHTML='<p class="note">この組み合わせで掛かりやすい危険魚はありません。</p>';
+    var ms=Object.keys(METHODS).filter(function(k){return score(k)>0}).sort(function(a,b){return score(b)-score(a)});
+    document.getElementById('riglist').innerHTML=ms.map(function(k){var m=METHODS[k],g=G[score(k)];
+      return '<details class="rigc '+g[1]+'"'+(score(k)===3?' open':'')+'><summary><span class="grade">'+g[0]+'</span><b>'+m.n+'</b></summary><dl>'+
+        Object.keys(m.rig).map(function(key){return '<dt>'+key+'</dt><dd>'+m.rig[key]+'</dd>'}).join('')+'</dl><p class="how">'+m.tip+'</p></details>'}).join('');
+    var lock=Object.keys(METHODS).filter(function(k){return score(k)===0}).map(function(k){return '<span class="lk"><i data-lucide="lock"></i>'+METHODS[k].n+'</span>'});
+    document.getElementById('locked').innerHTML=lock.length?'<span>この組み合わせでは使えない：</span>'+lock.join(''):'';
+    try{window.lucide&&lucide.createIcons();}catch(e){}
+    try{localStorage.setItem('oshima-loadout2',JSON.stringify(state));}catch(e){}
+  }
+  var modal=document.getElementById('modal'),lastFocus=null;
+  function openModal(f,mk,s,haz){
+    lastFocus=document.activeElement;
+    var ms=document.getElementById('m-sprite');ms.innerHTML='';ms.appendChild(sprite(f.sp,224));
+    document.getElementById('m-name').textContent=f.n;
+    var dg=DANGER[f.d];
+    document.getElementById('m-badges').innerHTML='<span class="dg '+dg[1]+'">'+dg[0]+'</span>'+(haz?'<span class="dg bad">外道・危険魚</span>':(G[s]?'<span class="grade">'+G[s][0]+' '+G[s][2]+'</span>':''));
+    document.getElementById('m-extra').innerHTML='';
+    var rows=[['毒・棘',f.dt],['扱い方',f.h],['食べ方',f.c.join('、')],['釣り方',METHODS[mk].n]];
+    if(f.w)rows.push(['時間',f.w]);if(f.p)rows.push(['場所',f.p]);
+    document.getElementById('m-dl').innerHTML=rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'}).join('');
+    modal.hidden=false;document.body.style.overflow='hidden';
+    document.getElementById('m-close').focus();
+    try{window.lucide&&lucide.createIcons();}catch(e){}
+  }
+  function closeModal(){modal.hidden=true;document.body.style.overflow='';if(lastFocus)try{lastFocus.focus()}catch(e){}}
+  document.getElementById('m-close').addEventListener('click',closeModal);
+  document.getElementById('modal-back').addEventListener('click',closeModal);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)closeModal();});
+  /* ===== my gear + dex ===== */
+  var KEY='oshima-dex-v1';
+  var DB={gear:[],catches:[]};
+  try{var raw=JSON.parse(localStorage.getItem(KEY)||'null');if(raw&&Array.isArray(raw.gear)&&Array.isArray(raw.catches))DB=raw;}catch(e){}
+  function saveDB(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true;}catch(e){toast('この端末では保存できませんでした（プライベートモードなど）');return false;}}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+  var ALL=FISH.map(function(f){return {f:f,hz:false}}).concat(HAZ.map(function(f){return {f:f,hz:true}}));
+  function byName(n){return ALL.filter(function(x){return x.f.n===n})[0]}
+  function rodName(id){var r=RODS.filter(function(x){return x.id===id})[0];return r?r.n:'—'}
+  function reelName(id){var r=REELS.filter(function(x){return x.id===id})[0];return r?r.n:'—'}
+  function gearName(id){var g=DB.gear.filter(function(x){return x.id===id})[0];return g?g.name:''}
+  var tt;
+  function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true},2600);}
+  function armDelete(btn,fn){
+    if(btn.classList.contains('armed')){fn();return;}
+    btn.classList.add('armed');var old=btn.textContent;btn.textContent='もう一度で削除';
+    setTimeout(function(){btn.classList.remove('armed');btn.textContent=old;},3000);
+  }
+
+  /* my gear */
+  function opts(sel,list,fmt){sel.innerHTML=list.map(function(x){return '<option value="'+x.id+'">'+esc(fmt(x))+'</option>'}).join('');}
+  opts(document.getElementById('g-rod'),RODS,function(r){return r.n});
+  opts(document.getElementById('g-reel'),REELS,function(r){return r.n});
+  function renderGear(){
+    var box=document.getElementById('gearlist');
+    if(!DB.gear.length){box.innerHTML='<div class="empty">まだ装備が登録されていません。下の「装備を登録する」から追加できます。</div>';return;}
+    box.innerHTML='';
+    DB.gear.forEach(function(g){
+      var on=state.rod===g.rod&&state.reel===g.reel;
+      var el=document.createElement('article');el.className='gcard'+(on?' on':'');
+      el.innerHTML='<b></b><span class="gs"></span><span class="gs gl"></span><div class="gbtns"><button type="button" class="pbtn sm eq">'+(on?'装備中':'装備する')+'</button><button type="button" class="pbtn sm danger del">削除</button></div>';
+      el.querySelector('b').textContent=g.name;
+      el.querySelector('.gs').textContent=rodName(g.rod)+' ／ '+reelName(g.reel);
+      el.querySelector('.gl').textContent=[g.line,g.note].filter(Boolean).join(' ・ ');
+      el.querySelector('.eq').addEventListener('click',function(){state.rod=g.rod;state.reel=g.reel;render();renderGear();toast(g.name+' を装備しました');var c=document.getElementById('catch');if(c&&!document.body.classList.contains('mob'))c.scrollIntoView({behavior:'smooth'});});
+      el.querySelector('.del').addEventListener('click',function(e){armDelete(e.currentTarget,function(){DB.gear=DB.gear.filter(function(x){return x.id!==g.id});saveDB();renderGear();fillCatchForm();});});
+      box.appendChild(el);
+    });
+  }
+  document.getElementById('gearform').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('g-name').value.trim();if(!name)return;
+    DB.gear.push({id:uid(),name:name,rod:document.getElementById('g-rod').value,reel:document.getElementById('g-reel').value,line:document.getElementById('g-line').value.trim(),note:document.getElementById('g-note').value.trim()});
+    if(saveDB()){e.target.reset();document.getElementById('gearform-box').open=false;renderGear();fillCatchForm();toast(name+' を登録しました');}
+  });
+
+  /* dex */
+  function caughtMap(){var m={};DB.catches.forEach(function(c){m[c.fish]=(m[c.fish]||0)+1});return m;}
+  function renderDex(){
+    var m=caughtMap(),got=ALL.filter(function(x){return m[x.f.n]}).length;
+    document.getElementById('dex-count').textContent=got+' / '+ALL.length+' 種';
+    document.getElementById('dex-fill').style.width=(got/ALL.length*100)+'%';
+    document.getElementById('complete').hidden=got<ALL.length;
+    var grid=document.getElementById('dexgrid');grid.innerHTML='';
+    ALL.forEach(function(x,i){
+      var n=m[x.f.n]||0;
+      var b=document.createElement('button');b.type='button';b.className='dx'+(n?'':' no')+(x.hz?' hz':'');
+      var fi=document.createElement('div');fi.className='fi';fi.appendChild(sprite(x.f.sp,88,!n));b.appendChild(fi);
+      var no=document.createElement('span');no.className='no-n';no.textContent='No.'+String(i+1).padStart(3,'0');b.appendChild(no);
+      var nm=document.createElement('b');nm.textContent=n?x.f.n:'？？？';b.appendChild(nm);
+      if(n){var c=document.createElement('span');c.className='cnt';c.textContent='×'+n;b.appendChild(c);}
+      b.setAttribute('aria-label',(n?x.f.n+' '+n+'匹記録済み':'未発見の魚 No.'+(i+1)));
+      b.addEventListener('click',function(){openDex(x,n)});
+      grid.appendChild(b);
+    });
+    var log=document.getElementById('loglist');
+    if(!DB.catches.length){log.innerHTML='<div class="empty">まだ記録がありません。釣れたら「釣果を登録」から追加しましょう。</div>';return;}
+    log.innerHTML='';
+    DB.catches.slice().sort(function(a,b){return (b.date+b.id).localeCompare(a.date+a.id)}).forEach(function(c){
+      var el=document.createElement('div');el.className='log';
+      el.innerHTML='<span class="ld"></span><b></b><button type="button" class="pbtn sm danger">削除</button><span class="lm"></span>';
+      el.querySelector('.ld').textContent=c.date.slice(5).replace('-','/');
+      el.querySelector('b').textContent=c.fish+(c.size?' '+c.size+'cm':'');
+      el.querySelector('.lm').textContent=[c.port,gearName(c.gearId),c.method&&METHODS[c.method]?METHODS[c.method].n:'',c.memo].filter(Boolean).join(' ・ ');
+      el.querySelector('button').addEventListener('click',function(e){armDelete(e.currentTarget,function(){DB.catches=DB.catches.filter(function(x){return x.id!==c.id});saveDB();renderDex();render();});});
+      log.appendChild(el);
+    });
+  }
+  function openDex(x,n){
+    var f=x.f;
+    if(n){openModal(f,f.m[0],0,x.hz);}
+    else{
+      lastFocus=document.activeElement;
+      var ms=document.getElementById('m-sprite');ms.innerHTML='';ms.appendChild(sprite(f.sp,224,true));
+      document.getElementById('m-name').textContent='？？？';
+      document.getElementById('m-badges').innerHTML='<span class="dg warn">未発見</span>';
+      var rows=[['狙い方',f.m.map(function(k){return METHODS[k].n}).join('、')]];
+      if(f.w)rows.push(['時間',f.w]);if(f.p)rows.push(['場所',f.p]);
+      if(x.hz)rows.push(['ヒント','危険な外道。掛かっても素手で触らない']);
+      document.getElementById('m-dl').innerHTML=rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'}).join('');
+      document.getElementById('m-extra').innerHTML='';
+      modal.hidden=false;document.body.style.overflow='hidden';document.getElementById('m-close').focus();
+      return;
+    }
+    var recs=DB.catches.filter(function(c){return c.fish===f.n}).sort(function(a,b){return b.date.localeCompare(a.date)});
+    var best=recs.reduce(function(m,c){return Math.max(m,+c.size||0)},0);
+    var ex=document.getElementById('m-extra');
+    ex.innerHTML='<h4>あなたの記録（'+recs.length+'匹'+(best?'・最大 '+best+'cm':'')+'）</h4>';
+    recs.slice(0,5).forEach(function(c){var d=document.createElement('div');d.className='m-rec';d.textContent=c.date+' ・ '+c.port+(c.size?' ・ '+c.size+'cm':'')+(gearName(c.gearId)?' ・ '+gearName(c.gearId):'');ex.appendChild(d);});
+  }
+
+  /* catch form */
+  var cmodal=document.getElementById('cmodal');
+  function fillCatchForm(){
+    document.getElementById('c-fish').innerHTML='<optgroup label="狙える魚">'+FISH.map(function(f){return '<option>'+esc(f.n)+'</option>'}).join('')+'</optgroup><optgroup label="危険魚・外道">'+HAZ.map(function(f){return '<option>'+esc(f.n)+'</option>'}).join('')+'</optgroup>';
+    document.getElementById('c-gear').innerHTML='<option value="">（未選択）</option>'+DB.gear.map(function(g){return '<option value="'+g.id+'">'+esc(g.name)+'</option>'}).join('');
+    document.getElementById('c-method').innerHTML='<option value="">（未選択）</option>'+Object.keys(METHODS).map(function(k){return '<option value="'+k+'">'+METHODS[k].n+'</option>'}).join('');
+  }
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function openCatch(fishName){
+    fillCatchForm();
+    var lf=document.activeElement;cmodal._lf=lf;
+    document.getElementById('c-date').value=today();
+    if(fishName)document.getElementById('c-fish').value=fishName;
+    var eq=DB.gear.filter(function(g){return g.rod===state.rod&&g.reel===state.reel})[0];
+    document.getElementById('c-gear').value=eq?eq.id:'';
+    cmodal.hidden=false;document.body.style.overflow='hidden';
+    document.getElementById('c-fish').focus();
+    try{window.lucide&&lucide.createIcons();}catch(e){}
+  }
+  function closeCatch(){cmodal.hidden=true;document.body.style.overflow='';try{cmodal._lf&&cmodal._lf.focus()}catch(e){}}
+  document.getElementById('add-catch').addEventListener('click',function(){openCatch()});
+  document.getElementById('c-close').addEventListener('click',closeCatch);
+  document.getElementById('cmodal-back').addEventListener('click',closeCatch);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!cmodal.hidden)closeCatch();});
+  document.getElementById('catchform').addEventListener('submit',function(e){
+    e.preventDefault();
+    var fish=document.getElementById('c-fish').value;if(!byName(fish))return;
+    var before=caughtMap()[fish]||0,beforeAll=ALL.filter(function(x){return caughtMap()[x.f.n]}).length;
+    var size=parseFloat(document.getElementById('c-size').value);
+    DB.catches.push({id:uid(),fish:fish,date:document.getElementById('c-date').value||today(),port:document.getElementById('c-port').value,size:isFinite(size)&&size>0?size:null,gearId:document.getElementById('c-gear').value,method:document.getElementById('c-method').value,memo:document.getElementById('c-memo').value.trim()});
+    if(!saveDB())return;
+    e.target.reset();closeCatch();renderDex();render();
+    var afterAll=ALL.filter(function(x){return caughtMap()[x.f.n]}).length;
+    if(afterAll===ALL.length&&beforeAll<ALL.length)toast('COMPLETE! 図鑑がすべて埋まりました');
+    else toast(before?fish+' を記録しました':'NEW! '+fish+' を図鑑に登録しました');
+  });
+
+  /* export / import */
+  document.getElementById('exp-btn').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='oshima-fishing-'+today()+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+    document.getElementById('io-msg').textContent='書き出しました。ダウンロードフォルダを確認してください。';
+  });
+  document.getElementById('imp-file').addEventListener('change',function(e){
+    var file=e.target.files&&e.target.files[0];if(!file)return;
+    var r=new FileReader();
+    r.onload=function(){
+      var msg=document.getElementById('io-msg');
+      try{
+        var d=JSON.parse(r.result);
+        if(!d||!Array.isArray(d.gear)||!Array.isArray(d.catches))throw 0;
+        var ids={};DB.gear.concat(DB.catches).forEach(function(x){ids[x.id]=1});
+        var ng=d.gear.filter(function(g){return g&&g.id&&g.name&&!ids[g.id]}).map(function(g){return {id:String(g.id),name:String(g.name).slice(0,30),rod:String(g.rod||''),reel:String(g.reel||''),line:String(g.line||'').slice(0,30),note:String(g.note||'').slice(0,60)}});
+        var nc=d.catches.filter(function(c){return c&&c.id&&byName(c.fish)&&!ids[c.id]}).map(function(c){return {id:String(c.id),fish:String(c.fish),date:String(c.date||'').slice(0,10),port:String(c.port||'').slice(0,20),size:+c.size>0?+c.size:null,gearId:String(c.gearId||''),method:METHODS[c.method]?c.method:'',memo:String(c.memo||'').slice(0,80)}});
+        DB.gear=DB.gear.concat(ng);DB.catches=DB.catches.concat(nc);
+        if(saveDB()){renderGear();renderDex();render();fillCatchForm();msg.textContent='読み込みました（装備 '+ng.length+' 件、釣果 '+nc.length+' 件を追加）。';}
+      }catch(err){msg.textContent='読み込めませんでした。このページで書き出したJSONファイルを選んでください。';}
+      e.target.value='';
+    };
+    r.readAsText(file);
+  });
+
+  /* mark caught fish in catch list */
+  var _render=render;
+  render=function(){_render();var m=caughtMap();
+    document.querySelectorAll('#fishgrid .fish, #hazgrid .fish').forEach(function(el){var h=el.querySelector('h3');if(!h)return;var n=h.firstChild&&h.firstChild.textContent;if(m[n]&&!el.querySelector('.mark')){var s=document.createElement('span');s.className='mark';s.textContent='図鑑登録済';el.querySelector('.fb').appendChild(s);}});
+    if(document.getElementById('gearlist'))renderGear();
+  };
+  fillCatchForm();renderDex();
+  buildPickers();render();
+})();
+
+(function(){
+  var mq=window.matchMedia('(max-width:720px)');
+  var tabs=[].slice.call(document.querySelectorAll('.tb'));
+  var cur='home';
+  try{cur=localStorage.getItem('oshima-tab')||'home';}catch(e){}
+  var h=(location.hash||'').slice(1);
+  var map={weather:'home',tide:'tide',spots:'map',shops:'map',tackle:'gear',catch:'gear',mygear:'gear',dex:'dex',list:'list'};
+  if(map[h])cur=map[h];
+  function show(t,scroll){
+    cur=t;
+    document.querySelectorAll('[data-tab]').forEach(function(el){el.classList.toggle('act',el.dataset.tab===t);});
+    tabs.forEach(function(b){var on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false');});
+    try{localStorage.setItem('oshima-tab',t);}catch(e){}
+    if(scroll)window.scrollTo(0,0);
+  }
+  function apply(){document.body.classList.toggle('mob',mq.matches);show(cur,false);}
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.t,true);});});
+  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){var k=map[a.getAttribute('href').slice(1)];if(k)cur=k;});});
+  if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply);
+  apply();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* ============================================================
+   skin-dell.css — Dell.com (1996) カタログ期のフラット版
+   出典: awesome-design-md / dell-1996
+   黒い額縁、平たい色面の「リボンカード」、Arial Black の見出し、
+   Times の本文、手切りGIF風のステッカー。影もグラデも使わない。
+   ============================================================ */
+
+:root{
+  /* --- 出典の生トークン --- */
+  --dell-red:#e91d2a;
+  --sticker:#fcc20f;
+  --stripe:#6a26a4;
+  --link:#0000ee;
+  --tint-olive:#8e8a25; --tint-sage:#b3bd95; --tint-salmon:#d77a7a; --tint-peach:#e6915d;
+  --tint-lime:#c0d4a7;  --tint-sky:#9ab6c8;  --tint-steel:#a5b8c0; --tint-peri:#8c9ae0;
+  --frame:#000000;
+
+  /* --- base.css が参照するトークン --- */
+  --bg:#ffffff; --surface:#ffffff; --ink:#000000; --edge:#000000; --muted:#454545; --line:#9a9a9a;
+  --red:#e91d2a; --blue:#3c5a68; --yellow:#fcc20f; --green:#6d6a1c; --on-yellow:#000000; --on-sea:#ffffff;
+  --sea:#3c5a68; --sea-soft:#dce7ec; --sea-deep:#9ab6c8; --camellia:#e91d2a; --camellia-soft:#fbdcde;
+  --land:#6d6a1c; --land-top:#c0d4a7; --ok:#6d6a1c; --ok-soft:#eceedb; --warn:#a8540f; --warn-soft:#f7e0cd;
+  --screen:#9ab6c8; --tile:#dce7ec; --screen-ink:#000000;
+  --scrim:rgba(0,0,0,.6);
+
+  --display:"Arial Black","Arial Bold",Arial,"Hiragino Sans","Yu Gothic UI",sans-serif;
+  --body:"Times New Roman",Times,"Hiragino Mincho ProN","Yu Mincho",serif;
+  --mono:Helvetica,"Helvetica Neue",Arial,"Hiragino Sans",sans-serif;
+  --h-weight:900; --label-tt:uppercase; --label-ls:.02em;
+
+  /* カタログ期＝角丸なし・影なし・グラデなし */
+  --bw:3px; --bw2:2px;
+  --r-panel:0px; --r-card:0px; --r-sm:0px; --r-xs:0px; --r-pill:9999px;
+  --panel-bg:#ffffff; --card-bg:#ffffff;
+  --sh-panel:none; --sh-card:none; --sh-sm:none;
+  --press:translateY(1px); --press-sh:none;
+
+  --hero-bg:var(--dell-red); --hero-ink:#ffffff; --hero-eyebrow:#ffe9b0; --hero-accent:var(--sticker);
+  --hero-h1-shadow:none;
+  --map-inner:none;
+
+  --tabbar-bg:#ffffff; --tab-on-bg:#000000; --tab-on-ink:#ffffff; --tab-on-icon:var(--sticker);
+  --sb-ink:#000000; --sb-muted:#454545; --sb-hover:#ebebeb;
+  --sb-on-bg:#000000; --sb-on-ink:#ffffff; --sb-on-icon:var(--sticker);
+}
+
+/* ---- ブラウザ窓そのものを額縁として扱う ---- */
+body::after{content:"";position:fixed;inset:0;border:8px solid var(--frame);z-index:70;pointer-events:none}
+
+/* ---- リボンカード：白い見出し帯＋鋭い黒の下線＋平たい色面 ---- */
+section h2{border-bottom:var(--bw) solid var(--edge);padding-bottom:10px;margin-bottom:2px}
+#weather h2 .ic{background:var(--tint-peach);color:#000}
+#tide h2 .ic{background:var(--tint-sky);color:#000}
+#spots h2 .ic{background:var(--tint-sage);color:#000}
+#shops h2 .ic{background:var(--tint-salmon);color:#000}
+#gear h2 .ic{background:var(--tint-peri);color:#000}
+#dex h2 .ic{background:var(--tint-lime);color:#000}
+#list h2 .ic{background:var(--tint-steel);color:#000}
+
+/* 各セクションの中身にもカタログ色を一つずつ割り当てる */
+#weather .fact{background:#fbeadd;border-color:var(--tint-peach)}
+#tide .slotc.slack{background:#f0f0f0}
+#spots .spot{background:#f3f5ed}
+#gear .nowgear{background:#e7eaf9}
+#gear .gcard.on{background:#e7eaf9}
+.check{background:#f4f7ee}
+.item:hover{background:#e9eedc}
+
+/* ---- 手切りGIF風ステッカー ---- */
+.mark,.live,.complete,.dx .cnt{background:var(--sticker);color:#000;border:2px solid #000;border-radius:0}
+.mark{transform:rotate(-4deg)}
+.live.off{background:#e4e4e4;color:#454545;border-color:#9a9a9a}
+.badge,.slotc .rank,.grade{border-radius:0}
+
+/* ---- ボタンは Helvetica ボールドの平たい板 ---- */
+.pbtn,.dt,.opt,.skinbtn{font-family:Helvetica,"Helvetica Neue",Arial,"Hiragino Sans",sans-serif;border-radius:0}
+.pbtn{background:var(--dell-red);color:#fff}
+.pbtn.ghost{background:var(--sticker);color:#000}
+.pbtn.danger{background:#fff;color:var(--dell-red)}
+.pbtn.danger.armed{background:var(--dell-red);color:#fff}
+.dt.on{background:#000;color:#fff}
+.opt.card[aria-pressed="true"]{background:var(--tint-peri);color:#000}
+.opt.card[aria-pressed="true"] span{color:#1d2340}
+#reelgrid .opt.card[aria-pressed="true"]{background:var(--tint-salmon);color:#000}
+#reelgrid .opt.card[aria-pressed="true"] span{color:#4a1414}
+.skinbtn[aria-pressed="true"]{background:var(--stripe);color:#fff}
+.tag,.dg{border-radius:0}
+
+/* ---- 1996年のリンク ---- */
+footer a,.m-dl a{color:var(--link);text-decoration:underline}
+
+/* ラベルは Helvetica、本文は Times */
+.eyebrow,.pk-lbl,.tb,.grade,.dx .no-n,.log .ld{font-family:var(--mono)}
+.form input,.form select{font-family:var(--mono)}
+
+@media (min-width:721px){
+  .tb{text-transform:uppercase;letter-spacing:.03em}
+  .sb-title{border-bottom-style:solid;border-bottom-color:#000}
+}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --frame:#e8e4d8;
+  --bg:#141414; --surface:#1d1d1d; --ink:#f0ede6; --edge:#f0ede6; --muted:#b0aca2; --line:#555050;
+  --sea:#8fb4c6; --sea-soft:#1c2a31; --sea-deep:#4a6b7c; --camellia:#ff5c58; --camellia-soft:#3a1618;
+  --land:#b9b45e; --land-top:#8a9b6a; --ok:#b9b45e; --ok-soft:#2b2a16; --warn:#dd8c4a; --warn-soft:#3a2615;
+  --yellow:#fcc20f; --screen:#4a6b7c; --tile:#243139; --screen-ink:#f0ede6;
+  --panel-bg:#1d1d1d; --card-bg:#1d1d1d;
+  --tabbar-bg:#1d1d1d; --tab-on-bg:#f0ede6; --tab-on-ink:#141414; --tab-on-icon:#141414;
+  --sb-ink:#f0ede6; --sb-muted:#b0aca2; --sb-hover:#2a2a2a; --sb-on-bg:#f0ede6; --sb-on-ink:#141414; --sb-on-icon:#141414;
+  color-scheme:dark;
+}
+:root:not([data-theme="light"]) #weather .fact{background:#2c211a;border-color:#8a5a3a}
+:root:not([data-theme="light"]) #spots .spot,
+:root:not([data-theme="light"]) .check{background:#1d1d1d}
+:root:not([data-theme="light"]) #gear .nowgear,
+:root:not([data-theme="light"]) #gear .gcard.on{background:#20243a}
+:root:not([data-theme="light"]) .item:hover{background:#2a2a2a}
+:root:not([data-theme="light"]) #tide .slotc.slack{background:#262626}
+}

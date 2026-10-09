@@ -1,0 +1,37 @@
+/* ============================================================
+   skin-nature.css — 既定。椿・海・森の自然なトーン。
+   太い黒枠＋硬いドロップシャドウのフラットな質感。
+   ============================================================ */
+
+:root{
+  --bg:#ecefe8; --dot:#d8ddd1; --surface:#fffdf9; --ink:#232a26; --edge:#232a26; --muted:#5d665f; --line:#d8ddd2;
+  --red:#d6443a; --blue:#2d6f9c; --yellow:#e3a63c; --green:#3f8d56; --on-yellow:#231f14; --on-sea:#ffffff;
+  --sea:#2d6f9c; --sea-soft:#e3edf3; --sea-deep:#b4cfe0; --camellia:#d6443a; --camellia-soft:#fae3e0;
+  --land:#4a8f5c; --land-top:#90c79b; --ok:#3f8d56; --ok-soft:#e1f0e4; --warn:#b97d1c; --warn-soft:#fbeed3;
+  --screen:#a9d4e8; --tile:#dcebf2; --screen-ink:#232a26;
+  --scrim:rgba(10,14,11,.55);
+
+  --display:"DotGothic16","Hiragino Sans",system-ui,sans-serif;
+  --body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",system-ui,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --h-weight:400; --label-tt:none; --label-ls:.1em;
+
+  --hero-bg:var(--camellia); --hero-ink:#fff; --hero-eyebrow:#ffe7e4; --hero-accent:var(--yellow);
+  --hero-h1-shadow:0 3px 0 rgba(0,0,0,.22);
+  --map-inner:inset 0 0 0 4px rgba(255,255,255,.35);
+
+  --tabbar-bg:var(--surface); --tab-on-bg:var(--sea-soft); --tab-on-ink:var(--ink); --tab-on-icon:var(--sea);
+  --sb-ink:var(--ink); --sb-muted:var(--muted); --sb-hover:var(--bg);
+  --sb-on-bg:var(--ink); --sb-on-ink:var(--surface); --sb-on-icon:var(--yellow);
+}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#171c19; --dot:#222a25; --surface:#242c27; --ink:#eff2ec; --edge:#070a08; --muted:#a6afa8; --line:#3a453d;
+  --red:#ef7064; --blue:#6aa8cf; --yellow:#e0a944; --green:#5cc47c; --on-yellow:#231f14;
+  --sea:#6aa8cf; --sea-soft:#1d2d39; --sea-deep:#2c4759; --camellia:#ef7064; --camellia-soft:#3f2320;
+  --land:#4b9c62; --land-top:#8fd49c; --ok:#5cc47c; --ok-soft:#1c3324; --warn:#e0a944; --warn-soft:#3a2f16;
+  --screen:#1e3a4c; --tile:#2a4454; --screen-ink:#eff2ec;
+  color-scheme:dark;
+}}
+
+body{background-image:radial-gradient(var(--dot) 1.5px,transparent 1.6px);background-size:18px 18px}

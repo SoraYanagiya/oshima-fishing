@@ -1,0 +1,123 @@
+/* ============================================================
+   skin-nintendo.css — Nintendo.com (2001) "console chrome"
+   出典: awesome-design-md / nintendo-2001
+   ブラッシュド・ペリウィンクルの金属プレート、面取りされた角、
+   ハーフトーンのカーボン製コマンドバー、暖色は「進む」合図だけに使う。
+   ============================================================ */
+
+:root{
+  /* --- 出典の生トークン --- */
+  --nin-red:#e60012;        /* Nintendo Red */
+  --signal:#f68d1f;         /* Signal Orange — 前進の合図 */
+  --amber:#ecab37;          /* Amber — ツールとバッジ */
+  --gold:#e48600;           /* Nav Gold — メニュー語 */
+  --carbon:#21242e;         /* Carbon Navy — コマンド層 */
+  --indigo:#3d4f97;         /* Chrome Indigo — ベベルの影 */
+  --indigo-soft:#60619c;
+  --peri:#8ba1d4;           /* 持ち上がった中段プレート */
+  --peri-pale:#9fbee7;
+  --lavender:#acace7;
+  --ice:#c0d5e6;
+  --platinum:#dedede;
+
+  /* --- base.css が参照するトークン --- */
+  --bg:#7a8aba; --surface:#ffffff; --ink:#21242e; --edge:#21242e; --muted:#545a85; --line:#b9c4e0;
+  --red:#e60012; --blue:#3d4f97; --yellow:#ecab37; --green:#206479; --on-yellow:#21242e; --on-sea:#ffffff;
+  --sea:#3d4f97; --sea-soft:#dfe5f6; --sea-deep:#8ba1d4; --camellia:#e60012; --camellia-soft:#fbd7d9;
+  --land:#206479; --land-top:#7fb8c6; --ok:#206479; --ok-soft:#d5e6ec; --warn:#e48600; --warn-soft:#f9e6c6;
+  --screen:#c0d5e6; --tile:#dedede; --screen-ink:#21242e;
+  --scrim:rgba(33,36,46,.66);
+
+  --display:"Arial Black","Arial Bold",Arial,"Hiragino Sans","Yu Gothic UI",sans-serif;
+  --body:Arial,"Helvetica Neue","Hiragino Sans","Yu Gothic UI",sans-serif;
+  --mono:"DotGothic16",ui-monospace,Menlo,monospace;   /* 微細ラベルのビットマップ感 */
+  --h-weight:900; --label-tt:uppercase; --label-ls:.06em;
+
+  /* 角は基本シャープ。丸めるのはピルとドットだけ */
+  --bw:2px; --bw2:2px;
+  --r-panel:6px; --r-card:4px; --r-sm:4px; --r-xs:2px; --r-pill:9999px;
+
+  /* プレート：上に照り、下にクローム・インディゴの影 */
+  --panel-bg:linear-gradient(180deg,#a9bbe4 0,#8ba1d4 16%,#8398cd 100%);
+  --card-bg:#ffffff;
+  --sh-panel:0 3px 0 #2b3566, inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 0 rgba(61,79,151,.9);
+  --sh-card:0 2px 0 var(--indigo), inset 0 1px 0 rgba(255,255,255,.65);
+  --sh-sm:0 2px 0 var(--indigo);
+  --press:translateY(2px);
+  --press-sh:inset 0 2px 3px rgba(33,36,46,.45);
+
+  --hero-bg:linear-gradient(170deg,#bdbdf0 0,#acace7 45%,#9a9ad8 100%);
+  --hero-ink:#ffffff; --hero-eyebrow:#21242e; --hero-accent:var(--amber);
+  /* 箱絵ロゴ：白抜き＋太いアウトライン＋硬い影 */
+  --hero-h1-shadow:3px 3px 0 #21242e,-2px -2px 0 #21242e,2px -2px 0 #21242e,-2px 2px 0 #21242e,2px 2px 0 #21242e,0 2px 0 #21242e,0 -2px 0 #21242e,2px 0 0 #21242e,-2px 0 0 #21242e;
+  --map-inner:inset 0 2px 0 rgba(255,255,255,.7), inset 0 -2px 0 var(--indigo);
+
+  --tabbar-bg:#21242e; --tab-on-bg:#3d4f97; --tab-on-ink:#ffffff; --tab-on-icon:var(--amber);
+  --sb-ink:#ffffff; --sb-muted:#9fbee7; --sb-hover:#2d3344;
+  --sb-on-bg:#3d4f97; --sb-on-ink:#ffffff; --sb-on-icon:var(--amber);
+
+  --chamfer:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);
+}
+
+/* ブラッシュド・メタルの筐体 */
+body{
+  background-color:#7a8aba;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.055) 0 1px,transparent 1px 3px),
+                   linear-gradient(180deg,#8496c4 0,#7a8aba 320px);
+  background-attachment:fixed;
+}
+
+/* ---- 面取り（チャンファ）したヒーロー・プレート ---- */
+.hero{position:relative;border:0;border-radius:0;clip-path:var(--chamfer);background:var(--edge);padding:20px;box-shadow:none}
+.hero::before{content:"";position:absolute;inset:2px;clip-path:var(--chamfer);background:var(--hero-bg);
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.5),inset 0 -3px 0 rgba(61,79,151,.5)}
+.hero>*{position:relative;z-index:1}
+.hero .eyebrow{color:#21242e;font-weight:700}
+
+/* ---- カーボンのコマンド層：ハーフトーンのドット ---- */
+.tabbar{background-image:radial-gradient(rgba(255,255,255,.085) 1px,transparent 1.3px);background-size:4px 4px}
+@media (max-width:720px){
+  .tb{color:#9fbee7}
+  .tb.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+}
+@media (min-width:721px){
+  .sb-title{color:#fff;border-bottom-color:#3d4f97}
+  .sb-title .eyebrow{color:var(--gold)}
+  .tb{text-transform:uppercase;letter-spacing:.04em}
+}
+
+/* ---- 暖色は「進む」合図にだけ使う ---- */
+.pbtn{background:var(--signal);color:#fff;border-color:var(--carbon)}
+.pbtn.ghost{background:var(--amber);color:var(--carbon)}
+.pbtn.danger{background:#fff;color:var(--nin-red)}
+.pbtn.danger.armed{background:var(--nin-red);color:#fff}
+.dt.on{background:var(--carbon);color:#fff}
+.opt.card[aria-pressed="true"]{background:var(--indigo);color:#fff}
+.opt.card[aria-pressed="true"] span{color:#cdd6f0}
+#reelgrid .opt.card[aria-pressed="true"]{background:var(--carbon)}
+#reelgrid .opt.card[aria-pressed="true"] span{color:#9fbee7}
+.skinbtn[aria-pressed="true"]{background:var(--gold);color:var(--carbon);border-color:var(--carbon)}
+.addbox summary svg{color:var(--signal)}
+h2 .ic{box-shadow:var(--sh-sm),inset 0 1px 0 rgba(255,255,255,.4)}
+
+/* 見出しラベルは詰めた大文字 */
+.eyebrow,.pk-lbl{font-weight:700}
+.rank,.grade{letter-spacing:.04em}
+
+/* 白いコンテンツカードを板の上に載せる */
+.check,.addbox{background:var(--platinum)}
+.bar{background:var(--platinum)}
+.item:hover{background:#eef2fb}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1a1d26; --surface:#2b3042; --ink:#eef1f8; --edge:#05070c; --muted:#a3abc8; --line:#434a68;
+  --sea:#8fa4e0; --sea-soft:#262c42; --sea-deep:#3d4f97; --camellia:#ff5a52; --camellia-soft:#3d1c1e;
+  --land:#49a2b8; --land-top:#7fb8c6; --ok:#49a2b8; --ok-soft:#17313a; --warn:#edab4a; --warn-soft:#3a2d13;
+  --yellow:#edab4a; --on-yellow:#1a1d26; --screen:#24405a; --tile:#394057; --screen-ink:#eef1f8;
+  --panel-bg:linear-gradient(180deg,#39405a 0,#2f3449 16%,#282d3f 100%);
+  --card-bg:#2b3042; --platinum:#343a4f;
+  --sh-panel:0 3px 0 #05070c, inset 0 2px 0 rgba(255,255,255,.14), inset 0 -3px 0 rgba(0,0,0,.5);
+  --hero-bg:linear-gradient(170deg,#4b4b86 0,#3b3b6d 45%,#2f2f57 100%);
+  --tabbar-bg:#121520;
+  color-scheme:dark;
+}}

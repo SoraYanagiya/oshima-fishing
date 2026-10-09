@@ -30,6 +30,10 @@
   --land:#3f9a55; --land-top:#8fd49c; --ok:#4fd27a; --ok-soft:#1b3a27; --warn:#ffc62e; --warn-soft:#3d3218; --screen:#1d3b66; --tile:#2d5384; color-scheme:dark}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px)}
+body{margin:0}
+img,canvas{max-width:100%}
 html{scroll-behavior:smooth}
 body{background:var(--bg);background-image:radial-gradient(var(--dot) 1.5px,transparent 1.6px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;margin:0}
 .wrap{max-width:780px;margin:0 auto;padding-inline:16px;padding-block:20px 64px;display:flex;flex-direction:column;gap:28px}
